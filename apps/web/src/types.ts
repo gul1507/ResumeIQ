@@ -1,0 +1,92 @@
+export type UserRole = 'candidate' | 'recruiter' | 'admin';
+
+export interface User {
+  id: string;
+  email: string;
+  role: UserRole;
+  isGuest: boolean;
+  name?: string;
+  createdAt: string;
+}
+
+export interface ParsedEntity {
+  id?: string;
+  type: 'skill' | 'experience' | 'education' | 'contact';
+  value: string;
+  confidence: number;
+  yearsOfExperience?: number;
+}
+
+export interface ResumeVersion {
+  id: string;
+  candidateId: string;
+  fileUrl?: string;
+  fileName: string;
+  fileType: string;
+  rawText: string;
+  version: number;
+  isTailored: boolean;
+  parentResumeId?: string;
+  parsedEntities: ParsedEntity[];
+  createdAt: string;
+}
+
+export interface JobRequirement {
+  id?: string;
+  skill: string;
+  importance: 'must_have' | 'nice_to_have';
+  confidence?: number;
+}
+
+export interface JobPosting {
+  id: string;
+  recruiterId: string;
+  title: string;
+  companyName: string;
+  location: string;
+  descriptionRaw: string;
+  requirements: JobRequirement[];
+  candidateCount?: number;
+  createdAt: string;
+}
+
+export interface SkillGap {
+  id?: string;
+  skill: string;
+  importance: 'must_have' | 'nice_to_have';
+  suggestionText: string;
+  status: 'matched' | 'missing';
+}
+
+export interface MatchResult {
+  id: string;
+  resumeId: string;
+  jobPostingId?: string;
+  candidateId?: string;
+  candidateName?: string;
+  candidateEmail?: string;
+  resumeFileName?: string;
+  lexicalScore: number;
+  semanticScore: number;
+  finalScore: number;
+  matchedSkills: string[];
+  missingSkills: string[];
+  explanation: string;
+  skillGaps: SkillGap[];
+  jobTitle?: string;
+  feedbackStatus?: 'shortlisted' | 'rejected' | 'feedback_sent' | 'pending';
+  feedbackMessage?: string;
+  createdAt: string;
+}
+
+export interface AuditLog {
+  id: string;
+  actorId: string;
+  actorEmail?: string;
+  actorRole?: string;
+  action: string;
+  targetType: string;
+  targetId: string;
+  metadataJson?: any;
+  createdAt: string;
+}

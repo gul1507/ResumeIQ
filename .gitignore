@@ -1,0 +1,29 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Build outputs
+dist
+build
+.next
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+env/
+
+# Uploads & Database
+uploads/
+*.db
+*.db-journal
+
+# Environment
+.env
+.env.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

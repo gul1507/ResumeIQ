@@ -1,0 +1,115 @@
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { User, UserRole } from '../types';
+
+interface AuthContextType {
+  user: User | null;
+  token: string | null;
+  login: (email: string, pass: string) => Promise<void>;
+  register: (email: string, pass: string, role: UserRole, name?: string) => Promise<void>;
+  continueAsGuest: () => Promise<void>;
+  logout: () => void;
+  loading: boolean;
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(() => {
+    const saved = localStorage.getItem('resumeiq_user');
+    return saved ? JSON.parse(saved) : null;
+  });
+
+  const [token, setToken] = useState<string | null>(() => localStorage.getItem('resumeiq_token'));
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem('resumeiq_user', JSON.stringify(user));
+    } else {
+      localStorage.removeItem('resumeiq_user');
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem('resumeiq_token', token);
+    } else {
+      localStorage.removeItem('resumeiq_token');
+    }
+  }, [token]);
+
+  const login = async (email: string, pass: string) => {
+    setLoading(true);
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password: pass })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Invalid email or password.');
+      setUser(data.user);
+      setToken(data.token);
+    } catch (e: any) {
+      throw e;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const register = async (email: string, pass: string, role: UserRole, name?: string) => {
+    setLoading(true);
+    try {
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password: pass, role, name })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Registration failed.');
+      setUser(data.user);
+      setToken(data.token);
+    } catch (e: any) {
+      throw e;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const continueAsGuest = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch('/api/auth/guest', { method: 'POST' });
+      const data = await res.json();
+      if (res.ok) {
+        setUser(data.user);
+        setToken(data.token);
+      } else {
+        throw new Error(data.error);
+      }
+    } catch (e: any) {
+      throw e;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const logout = () => {
+    setUser(null);
+    setToken(null);
+    localStorage.removeItem('resumeiq_user');
+    localStorage.removeItem('resumeiq_token');
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, token, login, register, continueAsGuest, logout, loading }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) throw new Error('useAuth must be used within AuthProvider');
+  return context;
+};

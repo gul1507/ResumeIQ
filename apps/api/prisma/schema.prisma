@@ -1,0 +1,123 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String     @id @default(uuid())
+  email        String     @unique
+  passwordHash String
+  role         String     @default("candidate") // candidate, recruiter, admin
+  isGuest      Boolean    @default(false)
+  name         String?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  resumes      Resume[]
+  jobPostings  JobPosting[]
+  feedbackSent Feedback[] @relation("RecruiterFeedback")
+  feedbackReceived Feedback[] @relation("CandidateFeedback")
+  auditLogs    AuditLog[]
+}
+
+model Resume {
+  id             String         @id @default(uuid())
+  candidateId    String
+  candidate      User           @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  fileUrl        String?
+  fileName       String
+  fileType       String
+  rawText        String
+  version        Int            @default(1)
+  isTailored     Boolean        @default(false)
+  parentResumeId String?
+  createdAt      DateTime       @default(now())
+  parsedEntities ParsedEntity[]
+  matches        Match[]
+}
+
+model ParsedEntity {
+  id                String   @id @default(uuid())
+  resumeId          String
+  resume            Resume   @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  type              String   // skill, experience, education, contact
+  value             String
+  confidence        Float    @default(1.0)
+  yearsOfExperience Int?
+}
+
+model JobPosting {
+  id             String           @id @default(uuid())
+  recruiterId    String
+  recruiter      User             @relation(fields: [recruiterId], references: [id], onDelete: Cascade)
+  title          String
+  companyName    String
+  location       String           @default("Remote")
+  descriptionRaw String
+  createdAt      DateTime         @default(now())
+  requirements   JobRequirement[]
+  matches        Match[]
+}
+
+model JobRequirement {
+  id           String     @id @default(uuid())
+  jobPostingId String
+  jobPosting   JobPosting @relation(fields: [jobPostingId], references: [id], onDelete: Cascade)
+  skill        String
+  importance   String     @default("must_have") // must_have, nice_to_have
+  confidence   Float      @default(1.0)
+}
+
+model Match {
+  id             String       @id @default(uuid())
+  resumeId       String
+  resume         Resume       @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  jobPostingId   String
+  jobPosting     JobPosting   @relation(fields: [jobPostingId], references: [id], onDelete: Cascade)
+  lexicalScore   Float
+  semanticScore  Float
+  finalScore     Float
+  matchedSkills  String       // JSON string array
+  missingSkills  String       // JSON string array
+  explanation    String
+  createdAt      DateTime     @default(now())
+  skillGaps      SkillGap[]
+  feedback       Feedback?
+}
+
+model SkillGap {
+  id             String   @id @default(uuid())
+  matchId        String
+  match          Match    @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  skill          String
+  importance     String   // must_have, nice_to_have
+  suggestionText String
+  status         String   // matched, missing
+}
+
+model Feedback {
+  id          String     @id @default(uuid())
+  matchId     String     @unique
+  match       Match      @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  recruiterId String
+  recruiter   User       @relation("RecruiterFeedback", fields: [recruiterId], references: [id])
+  candidateId String
+  candidate   User       @relation("CandidateFeedback", fields: [candidateId], references: [id])
+  status      String     // shortlisted, rejected, feedback_sent
+  message     String
+  createdAt   DateTime   @default(now())
+}
+
+model AuditLog {
+  id           String   @id @default(uuid())
+  actorId      String
+  actor        User     @relation(fields: [actorId], references: [id], onDelete: Cascade)
+  action       String
+  targetType   String
+  targetId     String
+  metadataJson String?
+  createdAt    DateTime @default(now())
+}
