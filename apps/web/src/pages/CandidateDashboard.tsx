@@ -4,6 +4,8 @@ import { ResumeVersion, JobPosting, MatchResult } from '../types';
 import { ScoreGauge } from '../components/ScoreGauge';
 import { SkillGapMatrix } from '../components/SkillGapMatrix';
 import { TailoredDiffView } from '../components/TailoredDiffView';
+import { EmptyState } from '../components/EmptyState';
+import { ConfettiCelebration } from '../components/ConfettiCelebration';
 import { 
   DEMO_PRESET_RESUMES, 
   DEMO_JOBS, 
@@ -53,6 +55,7 @@ export const CandidateDashboard: React.FC = () => {
   const [activeMatch, setActiveMatch] = useState<MatchResult | null>(null);
   const [tailoredResult, setTailoredResult] = useState<any | null>(null);
   const [loadingTailor, setLoadingTailor] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
     fetchJobs();
@@ -101,6 +104,7 @@ export const CandidateDashboard: React.FC = () => {
     setTailoredResult(null);
     setCustomJdText('');
     setIsDemoFallback(false);
+    setShowConfetti(false);
   };
 
   const handleRemoveFile = () => {
@@ -164,6 +168,11 @@ export const CandidateDashboard: React.FC = () => {
       setActiveMatch(simMatch);
       setIsDemoFallback(true);
       setPipelineState('done');
+      // Trigger confetti for strong scores
+      if (simMatch.finalScore >= 75) {
+        setShowConfetti(true);
+        setTimeout(() => setShowConfetti(false), 4200);
+      }
       return;
     }
 
@@ -216,6 +225,10 @@ export const CandidateDashboard: React.FC = () => {
       setActiveMatch(matchData);
       setIsDemoFallback(false);
       setPipelineState('done');
+      if (matchData.finalScore >= 75) {
+        setShowConfetti(true);
+        setTimeout(() => setShowConfetti(false), 4200);
+      }
 
     } catch (e: any) {
       // GRACEFUL FALLBACK TO PRECOMPUTED REALISTIC AI DATA
@@ -236,6 +249,10 @@ export const CandidateDashboard: React.FC = () => {
       );
       setActiveMatch(fallbackMatch);
       setPipelineState('done');
+      if (fallbackMatch.finalScore >= 75) {
+        setShowConfetti(true);
+        setTimeout(() => setShowConfetti(false), 4200);
+      }
     }
   };
 
@@ -279,6 +296,9 @@ export const CandidateDashboard: React.FC = () => {
 
   return (
     <div className="relative min-h-screen">
+      {/* Confetti celebration */}
+      <ConfettiCelebration active={showConfetti} score={activeMatch?.finalScore || 0} />
+
       {/* Background radial ambient glow */}
       <div className="absolute top-0 inset-x-0 h-96 bg-radial-glow-hero pointer-events-none" />
 
@@ -593,6 +613,16 @@ export const CandidateDashboard: React.FC = () => {
         )}
 
         {/* Results Section */}
+        {pipelineState === 'idle' && !activeMatch && (
+          <div className="bg-obsidian-900 border border-white/[0.08] rounded-2xl shadow-card-lift">
+            <EmptyState
+              variant="no-resume"
+              onAction={() => runFullPipeline()}
+              actionLabel="Compute ATS Score"
+            />
+          </div>
+        )}
+
         {activeMatch && (
           <div className="space-y-8 animate-in fade-in duration-500">
             

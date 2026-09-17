@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { JobPosting, MatchResult } from '../types';
 import { ExplainabilityPanel } from '../components/ExplainabilityPanel';
 import { FeedbackModal } from '../components/FeedbackModal';
+import { EmptyState } from '../components/EmptyState';
 import { DEMO_JOBS, DEMO_RECRUITER_CANDIDATES } from '../mockData';
 import { 
   Briefcase, 

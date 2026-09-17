@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Sparkles, ArrowRight, UserCheck } from 'lucide-react';
+import { Sparkles, ArrowRight, UserCheck, Mail, Lock, Zap } from 'lucide-react';
 
 export const LoginPage: React.FC = () => {
   const { login, continueAsGuest, loading } = useAuth();
@@ -20,7 +20,7 @@ export const LoginPage: React.FC = () => {
       else if (email.includes('admin')) navigate('/admin');
       else navigate('/candidate');
     } catch (err: any) {
-      setError(err.message || 'Invalid credentials.');
+      setError(err.message || 'Invalid credentials. Please try again.');
     }
   };
 
@@ -29,78 +29,159 @@ export const LoginPage: React.FC = () => {
     navigate('/candidate');
   };
 
+  const quickLogins = [
+    { label: 'Candidate', email: 'candidate@demo.com', role: '/candidate' },
+    { label: 'Recruiter', email: 'recruiter@demo.com', role: '/recruiter' },
+    { label: 'Admin', email: 'admin@demo.com', role: '/admin' },
+  ];
+
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4 relative">
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+    <div className="min-h-[90vh] flex items-center justify-center px-4 py-12 relative">
+      {/* Background glows */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-indigo-500/8 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-1/4 w-64 h-64 bg-teal-500/5 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="w-full max-w-md bg-obsidian-900 border border-white/[0.12] rounded-2xl p-8 shadow-card-lift space-y-6 relative z-10">
+      <div className="w-full max-w-md relative z-10 animate-fade-in-up">
         
-        <div className="text-center space-y-2">
-          <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 shadow-glow-indigo">
-            <Sparkles className="h-5 w-5 stroke-[2.2]" />
+        {/* Header */}
+        <div className="text-center mb-8 space-y-3">
+          <div className="relative inline-flex">
+            <div className="absolute inset-0 rounded-2xl bg-indigo-500/20 blur-xl animate-glow-pulse" />
+            <div className="relative h-14 w-14 items-center justify-center rounded-2xl bg-indigo-500/12 text-indigo-400 border border-indigo-500/30 inline-flex">
+              <Sparkles className="h-6 w-6 stroke-[2.2]" />
+            </div>
           </div>
-          <h2 className="font-display text-xl font-bold text-white tracking-tight">Sign In to ResumeIQ</h2>
-          <p className="text-xs text-slate-400">Access candidate optimization studio or recruiter pipeline</p>
+          <div>
+            <h1 className="font-display text-2xl font-extrabold text-white tracking-tight">Welcome back</h1>
+            <p className="text-xs text-slate-400 mt-1">Sign in to your ResumeIQ workspace</p>
+          </div>
         </div>
 
-        {error && (
-          <div className="p-3 bg-rose-950/80 border border-rose-800 text-rose-300 text-xs rounded-xl text-center">
-            {error}
+        {/* Guest Banner */}
+        <div
+          onClick={handleGuest}
+          className="group mb-5 flex items-center justify-between p-4 rounded-2xl bg-gradient-to-r from-indigo-950/60 to-obsidian-900 border border-indigo-500/25 cursor-pointer hover:border-indigo-500/50 hover:from-indigo-950/80 transition-all duration-200 shadow-glow-indigo"
+        >
+          <div className="flex items-center gap-3">
+            <div className="h-9 w-9 rounded-xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center">
+              <Zap className="h-4 w-4 text-indigo-300" />
+            </div>
+            <div>
+              <div className="text-xs font-bold text-white">Instant Demo Access</div>
+              <div className="text-[11px] text-indigo-300/70">No account needed — explore as candidate</div>
+            </div>
           </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-4 text-xs">
-          <div>
-            <label className="text-slate-300 font-semibold block mb-1">Email Address</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              placeholder="candidate@resumeiq.app"
-              className="w-full bg-obsidian-950 border border-white/[0.12] rounded-xl p-3 text-white focus:outline-none focus:border-indigo-500 transition-colors"
-            />
-          </div>
-
-          <div>
-            <label className="text-slate-300 font-semibold block mb-1">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              placeholder="••••••••"
-              className="w-full bg-obsidian-950 border border-white/[0.12] rounded-xl p-3 text-white focus:outline-none focus:border-indigo-500 transition-colors"
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-3.5 btn-primary-glow text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
-          >
-            <span>Sign In</span>
-            <ArrowRight className="h-4 w-4 stroke-[2.5]" />
-          </button>
-        </form>
-
-        <div className="border-t border-white/[0.08] pt-4 text-center space-y-3">
-          <button
-            onClick={handleGuest}
-            className="w-full py-2.5 btn-secondary-obsidian text-indigo-300 font-semibold text-xs rounded-xl transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
-          >
-            <UserCheck className="h-4 w-4 text-indigo-400" />
-            <span>Continue as Guest Candidate</span>
-          </button>
-
-          <p className="text-xs text-slate-400">
-            Don't have an account?{' '}
-            <Link to="/register" className="text-indigo-400 hover:underline font-semibold">
-              Sign up
-            </Link>
-          </p>
+          <ArrowRight className="h-4 w-4 text-indigo-400 group-hover:translate-x-1 transition-transform" />
         </div>
 
+        <div className="bg-obsidian-900 border border-white/[0.10] rounded-2xl p-6 shadow-card-lift space-y-5">
+
+          {/* Divider */}
+          <div className="flex items-center gap-3">
+            <div className="flex-1 h-px bg-white/[0.07]" />
+            <span className="text-[11px] text-slate-500 font-medium">or sign in with credentials</span>
+            <div className="flex-1 h-px bg-white/[0.07]" />
+          </div>
+
+          {/* Error */}
+          {error && (
+            <div className="p-3 bg-rose-950/80 border border-rose-800 text-rose-300 text-xs rounded-xl flex items-center gap-2.5">
+              <div className="h-4 w-4 shrink-0 rounded-full bg-rose-500/30 border border-rose-500 flex items-center justify-center">
+                <span className="text-[10px] font-bold">!</span>
+              </div>
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+            <div>
+              <label className="text-slate-300 font-semibold block mb-1.5 flex items-center gap-1.5">
+                <Mail className="h-3 w-3 text-slate-500" />
+                Email Address
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                placeholder="you@company.com"
+                className="w-full bg-obsidian-950 border border-white/[0.10] rounded-xl p-3 text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/70 focus:ring-1 focus:ring-indigo-500/20 transition-all"
+              />
+            </div>
+
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-slate-300 font-semibold flex items-center gap-1.5">
+                  <Lock className="h-3 w-3 text-slate-500" />
+                  Password
+                </label>
+                <span className="text-indigo-400 hover:text-indigo-300 cursor-pointer text-[11px] font-medium transition-colors">
+                  Forgot password?
+                </span>
+              </div>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                placeholder="••••••••"
+                className="w-full bg-obsidian-950 border border-white/[0.10] rounded-xl p-3 text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/70 focus:ring-1 focus:ring-indigo-500/20 transition-all"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3.5 btn-primary-glow text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow-md transition-all flex items-center justify-center gap-2 active:scale-[0.98] group"
+            >
+              {loading ? (
+                <span className="flex items-center gap-2">
+                  <span className="h-3.5 w-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  Signing in...
+                </span>
+              ) : (
+                <>
+                  <span>Sign In</span>
+                  <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform stroke-[2.5]" />
+                </>
+              )}
+            </button>
+          </form>
+
+          {/* Quick demo logins */}
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <div className="flex-1 h-px bg-white/[0.06]" />
+              <span className="text-[10px] text-slate-600 font-mono uppercase tracking-wider">Quick Demo</span>
+              <div className="flex-1 h-px bg-white/[0.06]" />
+            </div>
+            <div className="grid grid-cols-3 gap-1.5">
+              {quickLogins.map(({ label, email: qEmail }) => (
+                <button
+                  key={label}
+                  type="button"
+                  onClick={() => {
+                    setEmail(qEmail);
+                    setPassword('demo1234');
+                  }}
+                  className="px-2 py-1.5 rounded-lg bg-obsidian-950 border border-white/[0.07] hover:border-indigo-500/30 hover:bg-indigo-500/8 text-[11px] text-slate-400 hover:text-indigo-300 font-medium transition-all"
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Sign up link */}
+          <div className="text-center border-t border-white/[0.07] pt-4">
+            <p className="text-xs text-slate-500">
+              Don&apos;t have an account?{' '}
+              <Link to="/register" className="text-indigo-400 hover:text-indigo-300 hover:underline font-semibold transition-colors">
+                Sign up free
+              </Link>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
