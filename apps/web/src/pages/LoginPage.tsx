@@ -20,7 +20,7 @@ export const LoginPage: React.FC = () => {
       else if (email.includes('admin')) navigate('/admin');
       else navigate('/candidate');
     } catch (err: any) {
-      setError(err.message || 'Login failed.');
+      setError(err.message || 'Invalid credentials.');
     }
   };
 
@@ -30,19 +30,21 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4">
-      <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-2xl space-y-6">
+    <div className="min-h-[80vh] flex items-center justify-center px-4 relative">
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="w-full max-w-md bg-obsidian-900 border border-white/[0.12] rounded-2xl p-8 shadow-card-lift space-y-6 relative z-10">
         
         <div className="text-center space-y-2">
-          <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-teal-500/10 text-teal-400 border border-teal-500/30">
-            <Sparkles className="h-5 w-5" />
+          <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 shadow-glow-indigo">
+            <Sparkles className="h-5 w-5 stroke-[2.2]" />
           </div>
-          <h2 className="font-display text-xl font-bold text-white">Sign In to ResumeIQ</h2>
-          <p className="text-xs text-slate-400">Access candidate optimization or recruiter ranking tools</p>
+          <h2 className="font-display text-xl font-bold text-white tracking-tight">Sign In to ResumeIQ</h2>
+          <p className="text-xs text-slate-400">Access candidate optimization studio or recruiter pipeline</p>
         </div>
 
         {error && (
-          <div className="p-3 bg-rose-950/60 border border-rose-800 text-rose-300 text-xs rounded-xl text-center">
+          <div className="p-3 bg-rose-950/80 border border-rose-800 text-rose-300 text-xs rounded-xl text-center">
             {error}
           </div>
         )}
@@ -55,8 +57,8 @@ export const LoginPage: React.FC = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              placeholder="alex.dev@gmail.com"
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:outline-none focus:border-teal-500"
+              placeholder="candidate@resumeiq.app"
+              className="w-full bg-obsidian-950 border border-white/[0.12] rounded-xl p-3 text-white focus:outline-none focus:border-indigo-500 transition-colors"
             />
           </div>
 
@@ -68,32 +70,32 @@ export const LoginPage: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
               placeholder="••••••••"
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white focus:outline-none focus:border-teal-500"
+              className="w-full bg-obsidian-950 border border-white/[0.12] rounded-xl p-3 text-white focus:outline-none focus:border-indigo-500 transition-colors"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2"
+            className="w-full py-3.5 btn-primary-glow text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
           >
-            Sign In
+            <span>Sign In</span>
             <ArrowRight className="h-4 w-4 stroke-[2.5]" />
           </button>
         </form>
 
-        <div className="relative border-t border-slate-800 pt-4 text-center space-y-3">
+        <div className="border-t border-white/[0.08] pt-4 text-center space-y-3">
           <button
             onClick={handleGuest}
-            className="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-teal-300 font-semibold text-xs rounded-xl border border-slate-700 transition-colors flex items-center justify-center gap-1.5"
+            className="w-full py-2.5 btn-secondary-obsidian text-indigo-300 font-semibold text-xs rounded-xl transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
           >
-            <UserCheck className="h-4 w-4" />
-            Continue as Guest Candidate
+            <UserCheck className="h-4 w-4 text-indigo-400" />
+            <span>Continue as Guest Candidate</span>
           </button>
 
           <p className="text-xs text-slate-400">
             Don't have an account?{' '}
-            <Link to="/register" className="text-teal-400 hover:underline font-semibold">
+            <Link to="/register" className="text-indigo-400 hover:underline font-semibold">
               Sign up
             </Link>
           </p>

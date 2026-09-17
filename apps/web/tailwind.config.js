@@ -8,23 +8,41 @@ export default {
   theme: {
     extend: {
       colors: {
+        obsidian: {
+          950: '#080C14',
+          900: '#0D1321',
+          850: '#111827',
+          800: '#151D30',
+          700: '#1E293B',
+          600: '#334155'
+        },
         brand: {
-          50: '#f0fdfa',
-          100: '#ccfbf1',
-          500: '#14b8a6',
-          600: '#0d9488',
-          700: '#0f766e',
-          800: '#115e59',
-          900: '#134e4a',
-          950: '#042f2e',
+          50: '#eef2ff',
+          100: '#e0e7ff',
+          200: '#c7d2fe',
+          400: '#818cf8',
+          500: '#6366f1',
+          600: '#4f46e5',
+          700: '#4338ca',
+          800: '#3730a3',
+          900: '#312e81',
+          950: '#1e1b4b',
+        },
+        accent: {
+          teal: '#14b8a6',
+          emerald: '#10b981',
+          cyan: '#06b6d4',
+          violet: '#8b5cf6',
+          amber: '#f59e0b',
+          rose: '#f43f5e'
         },
         surface: {
           50: '#0f172a',
           100: '#1e293b',
           200: '#334155',
           300: '#475569',
-          800: '#090d16',
-          900: '#030712'
+          800: '#0D1321',
+          900: '#080C14'
         },
         match: {
           strong: '#10b981',   // Emerald
@@ -32,10 +50,21 @@ export default {
           weak: '#ef4444'      // Rose
         }
       },
+      boxShadow: {
+        'glow-indigo': '0 0 30px -5px rgba(99, 102, 241, 0.25)',
+        'glow-teal': '0 0 30px -5px rgba(20, 184, 166, 0.25)',
+        'glow-emerald': '0 0 30px -5px rgba(16, 185, 129, 0.25)',
+        'card-lift': '0 10px 30px -10px rgba(0, 0, 0, 0.5), 0 0 1px 1px rgba(255, 255, 255, 0.08)'
+      },
+      backgroundImage: {
+        'radial-glow': 'radial-gradient(ellipse at top, rgba(99, 102, 241, 0.15), transparent 70%)',
+        'radial-glow-hero': 'radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.25), rgba(13, 19, 33, 0))',
+        'gradient-dark-card': 'linear-gradient(180deg, rgba(21, 29, 48, 0.6) 0%, rgba(13, 19, 33, 0.8) 100%)'
+      },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         display: ['Space Grotesk', 'Inter', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace'],
+        mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
       }
     },
   },

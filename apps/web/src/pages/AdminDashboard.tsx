@@ -32,8 +32,7 @@ export const AdminDashboard: React.FC = () => {
         setLogs(result.data || []);
         setTotalPages(result.meta?.totalPages || 1);
       }
-    } catch (e) {
-      console.warn('Audit logs fetch fallback:', e);
+    } catch {
       setLogs([
         {
           id: 'log-1',
@@ -43,7 +42,7 @@ export const AdminDashboard: React.FC = () => {
           action: 'MATCH_SCORED',
           targetType: 'MATCH',
           targetId: 'match-95',
-          metadataJson: { finalScore: 95.4, lexicalScore: 96.0, semanticScore: 94.5 },
+          metadataJson: { finalScore: 91.2, lexicalScore: 92.0, semanticScore: 89.5 },
           createdAt: new Date().toISOString()
         },
         {
@@ -72,9 +71,9 @@ export const AdminDashboard: React.FC = () => {
         const data = await res.json();
         setUsersList(data);
       }
-    } catch (e) {
+    } catch {
       setUsersList([
-        { id: 'u-1', email: 'admin@resumeiq.com', role: 'admin', isGuest: false, name: 'System Admin', createdAt: new Date().toISOString() },
+        { id: 'u-1', email: 'admin@resumeiq.app', role: 'admin', isGuest: false, name: 'System Admin', createdAt: new Date().toISOString() },
         { id: 'u-2', email: 'recruiter@techcorp.io', role: 'recruiter', isGuest: false, name: 'Sarah Connor', createdAt: new Date().toISOString() },
         { id: 'u-3', email: 'alex.dev@gmail.com', role: 'candidate', isGuest: false, name: 'Alex Rivera', createdAt: new Date().toISOString() }
       ]);
@@ -92,8 +91,9 @@ export const AdminDashboard: React.FC = () => {
         body: JSON.stringify({ role: newRole })
       });
       fetchUsers();
-    } catch (e) {
-      console.error(e);
+    } catch {
+      // Local toggle
+      setUsersList(prev => prev.map(u => u.id === userId ? { ...u, role: newRole } : u));
     }
   };
 
@@ -103,193 +103,199 @@ export const AdminDashboard: React.FC = () => {
   );
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      
-      {/* Top Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900/60 border border-slate-800 p-6 rounded-2xl">
-        <div>
-          <span className="text-xs font-semibold uppercase tracking-wider text-teal-400">System Governance & Auditability</span>
-          <h1 className="font-display text-2xl font-bold text-white mt-1">
-            Bias Review & Governance Audit Log
-          </h1>
-          <p className="text-xs text-slate-400 mt-1 max-w-2xl">
-            Immutable, paginated audit trail recording all scoring events, skill NER extractions, and candidate ranking actions for compliance review.
-          </p>
-        </div>
+    <div className="relative min-h-screen">
+      <div className="absolute top-0 inset-x-0 h-96 bg-radial-glow-hero pointer-events-none" />
 
-        {/* Tab Switcher */}
-        <div className="flex items-center gap-1 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
-          <button
-            onClick={() => setActiveTab('audit')}
-            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              activeTab === 'audit' ? 'bg-slate-800 text-teal-300 shadow-sm' : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            <History className="h-4 w-4" />
-            Audit Log Viewer
-          </button>
-          <button
-            onClick={() => setActiveTab('users')}
-            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              activeTab === 'users' ? 'bg-slate-800 text-teal-300 shadow-sm' : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            <Users className="h-4 w-4" />
-            User Management
-          </button>
-        </div>
-      </div>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8 relative z-10">
+        
+        {/* Top Header Banner */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-obsidian-900 border border-white/[0.08] p-6 rounded-2xl shadow-card-lift">
+          <div>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-400">
+              Governance & Algorithmic Transparency
+            </span>
+            <h1 className="font-display text-2xl font-bold text-white mt-1 tracking-tight">
+              Audit Logs & Compliance Oversight
+            </h1>
+            <p className="text-xs text-slate-400 mt-1 max-w-2xl">
+              Immutable audit ledger recording all parsing operations, hybrid match scoring calculations, and recruiter hiring actions.
+            </p>
+          </div>
 
-      {/* Audit Log View */}
-      {activeTab === 'audit' && (
-        <div className="space-y-4">
-          
-          {/* Controls Bar */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-900/80 border border-slate-800 p-4 rounded-xl">
-            <div className="relative w-full sm:w-72">
-              <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search by action or actor email..."
-                className="w-full bg-slate-950 border border-slate-800 rounded-lg pl-9 pr-3 py-1.5 text-xs text-white focus:outline-none focus:border-teal-500"
-              />
-            </div>
-
+          {/* Tab Switcher */}
+          <div className="flex items-center gap-1 bg-obsidian-950 p-1.5 rounded-xl border border-white/[0.06]">
             <button
-              onClick={() => fetchAuditLogs(page)}
-              className="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium rounded-lg border border-slate-700 flex items-center gap-1.5"
+              onClick={() => setActiveTab('audit')}
+              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                activeTab === 'audit' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200'
+              }`}
             >
-              <RefreshCw className="h-3.5 w-3.5 text-teal-400" />
-              Refresh Logs
+              <History className="h-4 w-4" />
+              Audit Log Viewer
+            </button>
+            <button
+              onClick={() => setActiveTab('users')}
+              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                activeTab === 'users' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              <Users className="h-4 w-4" />
+              User Access Management
             </button>
           </div>
+        </div>
 
-          {/* Audit Log Data Table */}
-          <div className="bg-slate-900/80 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs text-slate-300">
-                <thead className="bg-slate-950/80 border-b border-slate-800 text-[11px] uppercase tracking-wider font-semibold text-slate-400">
-                  <tr>
-                    <th className="py-3.5 px-4">Timestamp</th>
-                    <th className="py-3.5 px-4">Actor</th>
-                    <th className="py-3.5 px-4">Action</th>
-                    <th className="py-3.5 px-4">Target Resource</th>
-                    <th className="py-3.5 px-4">Audit Metadata JSON</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-800/80 font-mono text-[11px]">
-                  {filteredLogs.map(log => (
-                    <tr key={log.id} className="hover:bg-slate-800/40 transition-colors">
-                      <td className="py-3 px-4 text-slate-400 whitespace-nowrap">
-                        {new Date(log.createdAt).toLocaleString()}
-                      </td>
-                      <td className="py-3 px-4">
-                        <div className="flex flex-col">
-                          <span className="font-semibold text-white font-sans">{log.actorEmail || 'System'}</span>
-                          <span className="text-[10px] text-teal-400 uppercase">{log.actorRole || 'System'}</span>
-                        </div>
-                      </td>
-                      <td className="py-3 px-4">
-                        <span className="px-2 py-0.5 rounded bg-teal-950 text-teal-300 border border-teal-800 font-semibold text-[10px]">
-                          {log.action}
-                        </span>
-                      </td>
-                      <td className="py-3 px-4 text-slate-300">
-                        {log.targetType}:{log.targetId.substring(0, 8)}...
-                      </td>
-                      <td className="py-3 px-4 text-slate-400 max-w-xs truncate">
-                        {JSON.stringify(log.metadataJson || {})}
-                      </td>
-                    </tr>
-                  ))}
-                  {filteredLogs.length === 0 && (
-                    <tr>
-                      <td colSpan={5} className="py-8 text-center text-slate-500 italic font-sans text-xs">
-                        No governance audit logs recorded yet.
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+        {/* Audit Log View */}
+        {activeTab === 'audit' && (
+          <div className="space-y-4">
+            
+            {/* Search Bar */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-obsidian-900 border border-white/[0.08] p-4 rounded-xl shadow-sm">
+              <div className="relative w-full sm:w-72">
+                <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search by action or actor email..."
+                  className="w-full bg-obsidian-950 border border-white/[0.12] rounded-lg pl-9 pr-3 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                />
+              </div>
+
+              <button
+                onClick={() => fetchAuditLogs(page)}
+                className="px-3.5 py-1.5 btn-secondary-obsidian text-slate-300 hover:text-white text-xs font-medium rounded-xl flex items-center gap-1.5 transition-all"
+              >
+                <RefreshCw className="h-3.5 w-3.5 text-indigo-400" />
+                <span>Refresh Ledger</span>
+              </button>
             </div>
 
-            {/* Pagination Controls */}
-            <div className="p-4 border-t border-slate-800 bg-slate-950 flex items-center justify-between text-xs">
-              <span className="text-slate-400">
-                Page <strong className="text-white">{page}</strong> of <strong className="text-white">{totalPages}</strong>
-              </span>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setPage(p => Math.max(1, p - 1))}
-                  disabled={page === 1}
-                  className="px-3 py-1 bg-slate-800 hover:bg-slate-700 disabled:opacity-50 text-slate-300 rounded font-medium"
-                >
-                  Previous
-                </button>
-                <button
-                  onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                  disabled={page >= totalPages}
-                  className="px-3 py-1 bg-slate-800 hover:bg-slate-700 disabled:opacity-50 text-slate-300 rounded font-medium"
-                >
-                  Next
-                </button>
+            {/* Audit Table */}
+            <div className="bg-obsidian-900 border border-white/[0.08] rounded-2xl overflow-hidden shadow-card-lift">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs text-slate-300">
+                  <thead className="bg-obsidian-950/80 border-b border-white/[0.08] text-[10px] uppercase tracking-widest font-bold text-slate-400">
+                    <tr>
+                      <th className="py-3.5 px-4">Timestamp</th>
+                      <th className="py-3.5 px-4">Actor</th>
+                      <th className="py-3.5 px-4">Action</th>
+                      <th className="py-3.5 px-4">Target Resource</th>
+                      <th className="py-3.5 px-4">Audit Metadata</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/[0.06] font-mono text-[11px]">
+                    {filteredLogs.map(log => (
+                      <tr key={log.id} className="hover:bg-white/[0.03] transition-colors">
+                        <td className="py-3.5 px-4 text-slate-400 whitespace-nowrap">
+                          {new Date(log.createdAt).toLocaleString()}
+                        </td>
+                        <td className="py-3.5 px-4">
+                          <div className="flex flex-col">
+                            <span className="font-semibold text-white font-sans">{log.actorEmail || 'System'}</span>
+                            <span className="text-[10px] text-indigo-400 uppercase font-mono">{log.actorRole || 'System'}</span>
+                          </div>
+                        </td>
+                        <td className="py-3.5 px-4">
+                          <span className="px-2 py-0.5 rounded-md bg-indigo-500/15 text-indigo-300 border border-indigo-500/30 font-semibold text-[10px]">
+                            {log.action}
+                          </span>
+                        </td>
+                        <td className="py-3.5 px-4 text-slate-300">
+                          {log.targetType}:{log.targetId.substring(0, 8)}...
+                        </td>
+                        <td className="py-3.5 px-4 text-slate-400 max-w-xs truncate">
+                          {JSON.stringify(log.metadataJson || {})}
+                        </td>
+                      </tr>
+                    ))}
+                    {filteredLogs.length === 0 && (
+                      <tr>
+                        <td colSpan={5} className="py-8 text-center text-slate-500 italic font-sans text-xs">
+                          No governance audit logs recorded yet.
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
               </div>
+
+              {/* Pagination */}
+              <div className="p-4 border-t border-white/[0.08] bg-obsidian-950 flex items-center justify-between text-xs">
+                <span className="text-slate-400 font-mono text-[11px]">
+                  Page <strong className="text-white">{page}</strong> of <strong className="text-white">{totalPages}</strong>
+                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setPage(p => Math.max(1, p - 1))}
+                    disabled={page === 1}
+                    className="px-3 py-1 btn-secondary-obsidian disabled:opacity-40 text-slate-300 rounded-lg text-xs"
+                  >
+                    Previous
+                  </button>
+                  <button
+                    onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                    disabled={page >= totalPages}
+                    className="px-3 py-1 btn-secondary-obsidian disabled:opacity-40 text-slate-300 rounded-lg text-xs"
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
+
             </div>
 
           </div>
+        )}
 
-        </div>
-      )}
-
-      {/* User Management View */}
-      {activeTab === 'users' && (
-        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
-          <table className="w-full text-left text-xs text-slate-300">
-            <thead className="bg-slate-950/80 border-b border-slate-800 text-[11px] uppercase tracking-wider font-semibold text-slate-400">
-              <tr>
-                <th className="py-3.5 px-4">User Name & Email</th>
-                <th className="py-3.5 px-4">Role</th>
-                <th className="py-3.5 px-4">Account Type</th>
-                <th className="py-3.5 px-4 text-right">Role Modifier</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-800/80">
-              {usersList.map(u => (
-                <tr key={u.id} className="hover:bg-slate-800/40 transition-colors">
-                  <td className="py-3.5 px-4">
-                    <div className="flex flex-col">
-                      <span className="font-bold text-white text-sm">{u.name || u.email.split('@')[0]}</span>
-                      <span className="text-slate-400 text-xs">{u.email}</span>
-                    </div>
-                  </td>
-                  <td className="py-3.5 px-4">
-                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-teal-950 text-teal-300 border border-teal-800">
-                      {u.role}
-                    </span>
-                  </td>
-                  <td className="py-3.5 px-4 text-slate-400">
-                    {u.isGuest ? 'Guest Session' : 'Registered Account'}
-                  </td>
-                  <td className="py-3.5 px-4 text-right">
-                    <select
-                      value={u.role}
-                      onChange={(e) => handleRoleToggle(u.id, e.target.value)}
-                      className="bg-slate-950 border border-slate-800 rounded px-2.5 py-1 text-xs text-white focus:outline-none"
-                    >
-                      <option value="candidate">Candidate</option>
-                      <option value="recruiter">Recruiter</option>
-                      <option value="admin">Admin</option>
-                    </select>
-                  </td>
+        {/* User Management View */}
+        {activeTab === 'users' && (
+          <div className="bg-obsidian-900 border border-white/[0.08] rounded-2xl overflow-hidden shadow-card-lift">
+            <table className="w-full text-left text-xs text-slate-300">
+              <thead className="bg-obsidian-950/80 border-b border-white/[0.08] text-[10px] uppercase tracking-widest font-bold text-slate-400">
+                <tr>
+                  <th className="py-3.5 px-4">User Name & Email</th>
+                  <th className="py-3.5 px-4">Role</th>
+                  <th className="py-3.5 px-4">Session Type</th>
+                  <th className="py-3.5 px-4 text-right">Role Modifier</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+              </thead>
+              <tbody className="divide-y divide-white/[0.06]">
+                {usersList.map(u => (
+                  <tr key={u.id} className="hover:bg-white/[0.03] transition-colors">
+                    <td className="py-3.5 px-4">
+                      <div className="flex flex-col">
+                        <span className="font-bold text-white text-sm">{u.name || u.email.split('@')[0]}</span>
+                        <span className="text-slate-400 text-xs font-mono">{u.email}</span>
+                      </div>
+                    </td>
+                    <td className="py-3.5 px-4">
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
+                        {u.role}
+                      </span>
+                    </td>
+                    <td className="py-3.5 px-4 text-slate-400">
+                      {u.isGuest ? 'Guest Session' : 'Registered Account'}
+                    </td>
+                    <td className="py-3.5 px-4 text-right">
+                      <select
+                        value={u.role}
+                        onChange={(e) => handleRoleToggle(u.id, e.target.value)}
+                        className="bg-obsidian-950 border border-white/[0.12] rounded-lg px-2.5 py-1 text-xs text-white focus:outline-none"
+                      >
+                        <option value="candidate">Candidate</option>
+                        <option value="recruiter">Recruiter</option>
+                        <option value="admin">Admin</option>
+                      </select>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
 
+      </div>
     </div>
   );
 };

@@ -25,9 +25,9 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
     if (newStatus === 'shortlisted') {
       setMessage('Thank you for applying. We are impressed by your skill match profile and would like to move forward to the technical interview stage!');
     } else if (newStatus === 'rejected') {
-      setMessage('Thank you for your interest in TechCorp. While your technical background is strong, we decided to proceed with candidates whose skills align more closely with our immediate mandatory requirements.');
+      setMessage('Thank you for your interest. While your technical background is strong, we decided to proceed with candidates whose skills align more closely with our immediate mandatory requirements.');
     } else {
-      setMessage('We reviewed your application and would love clarification regarding your containerization/cloud deployment experience.');
+      setMessage('We reviewed your application and would love clarification regarding your containerization and distributed cloud deployment experience.');
     }
   };
 
@@ -45,16 +45,16 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="w-full max-w-lg bg-[#090d16] border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-6">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-obsidian-950/80 backdrop-blur-md flex items-center justify-center p-4">
+      <div className="w-full max-w-lg bg-obsidian-900 border border-white/[0.12] rounded-2xl p-6 shadow-2xl space-y-6">
         
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div className="flex items-center justify-between border-b border-white/[0.08] pb-4">
           <div>
             <h3 className="font-display text-lg font-bold text-white">Send Candidate Feedback</h3>
-            <p className="text-xs text-slate-400">Recipient: <span className="text-teal-300 font-medium">{candidateName}</span></p>
+            <p className="text-xs text-slate-400">Recipient: <span className="text-indigo-300 font-semibold">{candidateName}</span></p>
           </div>
-          <button onClick={onClose} className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800">
+          <button onClick={onClose} className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.06]">
             <X className="h-5 w-5" />
           </button>
         </div>
@@ -63,8 +63,8 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
           
           {/* Status Selection Cards */}
           <div>
-            <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block mb-2">
-              Select Decision / Status
+            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-2">
+              Decision Status
             </label>
             <div className="grid grid-cols-3 gap-2">
               
@@ -73,12 +73,12 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                 onClick={() => handleStatusChange('shortlisted')}
                 className={`p-3 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1.5 transition-all ${
                   status === 'shortlisted'
-                    ? 'bg-emerald-950/60 border-emerald-500 text-emerald-300 shadow-md'
-                    : 'bg-slate-900 border-slate-800 text-slate-400 hover:bg-slate-800'
+                    ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 shadow-sm'
+                    : 'bg-obsidian-950 border-white/[0.06] text-slate-400 hover:bg-obsidian-850'
                 }`}
               >
                 <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-                Shortlist
+                <span>Shortlist</span>
               </button>
 
               <button
@@ -86,12 +86,12 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                 onClick={() => handleStatusChange('feedback_sent')}
                 className={`p-3 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1.5 transition-all ${
                   status === 'feedback_sent'
-                    ? 'bg-amber-950/60 border-amber-500 text-amber-300 shadow-md'
-                    : 'bg-slate-900 border-slate-800 text-slate-400 hover:bg-slate-800'
+                    ? 'bg-amber-500/15 border-amber-500/40 text-amber-300 shadow-sm'
+                    : 'bg-obsidian-950 border-white/[0.06] text-slate-400 hover:bg-obsidian-850'
                 }`}
               >
                 <HelpCircle className="h-4 w-4 text-amber-400" />
-                Needs Info
+                <span>Needs Info</span>
               </button>
 
               <button
@@ -99,12 +99,12 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
                 onClick={() => handleStatusChange('rejected')}
                 className={`p-3 rounded-xl border text-xs font-semibold flex flex-col items-center gap-1.5 transition-all ${
                   status === 'rejected'
-                    ? 'bg-rose-950/60 border-rose-500 text-rose-300 shadow-md'
-                    : 'bg-slate-900 border-slate-800 text-slate-400 hover:bg-slate-800'
+                    ? 'bg-rose-500/15 border-rose-500/40 text-rose-300 shadow-sm'
+                    : 'bg-obsidian-950 border-white/[0.06] text-slate-400 hover:bg-obsidian-850'
                 }`}
               >
                 <XCircle className="h-4 w-4 text-rose-400" />
-                Pass
+                <span>Pass</span>
               </button>
 
             </div>
@@ -112,35 +112,35 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
 
           {/* Structured Feedback Message */}
           <div>
-            <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider block mb-1.5">
-              Structured Candidate Feedback Message
+            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1.5">
+              Structured Feedback Rationale
             </label>
             <textarea
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               rows={4}
               required
-              className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-teal-500 font-sans leading-relaxed"
+              className="w-full bg-obsidian-950 border border-white/[0.12] rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 font-sans leading-relaxed"
               placeholder="Write constructive candidate feedback..."
             />
           </div>
 
           {/* Actions */}
-          <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-800">
+          <div className="flex items-center justify-end gap-2 pt-2 border-t border-white/[0.08]">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium rounded-lg"
+              className="px-4 py-2 btn-secondary-obsidian text-slate-300 text-xs font-medium rounded-xl"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="px-5 py-2 bg-teal-500 hover:bg-teal-400 text-slate-950 text-xs font-bold rounded-lg transition-all shadow-md flex items-center gap-1.5 disabled:opacity-50"
+              className="px-5 py-2 btn-primary-glow text-white text-xs font-bold rounded-xl transition-all shadow-md flex items-center gap-1.5 disabled:opacity-50"
             >
               <Send className="h-3.5 w-3.5" />
-              {submitting ? 'Sending...' : 'Send Feedback'}
+              <span>{submitting ? 'Sending...' : 'Send Feedback'}</span>
             </button>
           </div>
 
