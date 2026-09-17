@@ -134,6 +134,50 @@ router.post('/score', authenticate, async (req: AuthRequest, res: Response) => {
   }
 });
 
+// List Matches for Current User
+router.get('/', authenticate, async (req: AuthRequest, res: Response) => {
+  try {
+    const isRecruiterOrAdmin = ['recruiter', 'admin'].includes(req.user!.role);
+    const matches = await prisma.match.findMany({
+      where: isRecruiterOrAdmin ? {} : { resume: { candidateId: req.user!.id } },
+      include: {
+        skillGaps: true,
+        resume: {
+          include: {
+            candidate: { select: { id: true, name: true, email: true } }
+          }
+        },
+        jobPosting: true,
+        feedback: true
+      },
+      orderBy: { createdAt: 'desc' }
+    });
+
+    const formatted = matches.map(m => ({
+      id: m.id,
+      resumeId: m.resumeId,
+      jobPostingId: m.jobPostingId,
+      lexicalScore: m.lexicalScore,
+      semanticScore: m.semanticScore,
+      finalScore: m.finalScore,
+      matchedSkills: JSON.parse(m.matchedSkills || '[]'),
+      missingSkills: JSON.parse(m.missingSkills || '[]'),
+      explanation: m.explanation,
+      skillGaps: m.skillGaps,
+      candidateName: m.resume?.candidate?.name || 'Candidate',
+      resumeTitle: m.resume?.fileName || 'Resume',
+      jobTitle: m.jobPosting?.title || 'Target Job',
+      feedbackStatus: m.feedback?.status || 'pending',
+      feedbackMessage: m.feedback?.message || null,
+      createdAt: m.createdAt
+    }));
+
+    res.json(formatted);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Get Match Detail by ID
 router.get('/:id', authenticate, async (req: AuthRequest, res: Response) => {
   try {

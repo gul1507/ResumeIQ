@@ -18,6 +18,7 @@ async function main() {
   await prisma.user.deleteMany();
 
   const passwordHash = await bcrypt.hash('password123', 10);
+  const demoPasswordHash = await bcrypt.hash('demo1234', 10);
 
   // 1. Create Users
   const adminUser = await prisma.user.create({
@@ -25,6 +26,15 @@ async function main() {
       email: 'admin@resumeiq.com',
       name: 'System Administrator',
       passwordHash,
+      role: 'admin'
+    }
+  });
+
+  const demoAdminUser = await prisma.user.create({
+    data: {
+      email: 'admin@demo.com',
+      name: 'Demo Admin',
+      passwordHash: demoPasswordHash,
       role: 'admin'
     }
   });
@@ -38,11 +48,29 @@ async function main() {
     }
   });
 
+  const demoRecruiterUser = await prisma.user.create({
+    data: {
+      email: 'recruiter@demo.com',
+      name: 'Demo Recruiter',
+      passwordHash: demoPasswordHash,
+      role: 'recruiter'
+    }
+  });
+
   const candidate1 = await prisma.user.create({
     data: {
       email: 'alex.dev@gmail.com',
       name: 'Alex Rivera',
       passwordHash,
+      role: 'candidate'
+    }
+  });
+
+  const demoCandidateUser = await prisma.user.create({
+    data: {
+      email: 'candidate@demo.com',
+      name: 'Demo Candidate',
+      passwordHash: demoPasswordHash,
       role: 'candidate'
     }
   });
@@ -116,6 +144,30 @@ Experience:
     }
   });
 
+  const demoResume = await prisma.resume.create({
+    data: {
+      candidateId: demoCandidateUser.id,
+      fileName: 'Demo_Candidate_FullStack_Resume.pdf',
+      fileType: 'application/pdf',
+      rawText: `Jordan Taylor - Senior Software Engineer
+Summary: Experienced software engineer with 6 years building modern React, TypeScript, and Node.js applications with PostgreSQL backends.
+Skills: React, TypeScript, Node.js, Express, PostgreSQL, REST API, Git, Tailwind CSS, Jest, GraphQL.
+Experience:
+- Staff Engineer at CloudScale: Spearheaded React and Node API migration scaling to 500k DAU.
+- Full Stack Developer at WebWorks: Designed REST APIs, optimized Postgres queries, and wrote automated Vitest suites.`,
+      parsedEntities: {
+        create: [
+          { type: 'skill', value: 'React', confidence: 0.98, yearsOfExperience: 6 },
+          { type: 'skill', value: 'TypeScript', confidence: 0.95, yearsOfExperience: 5 },
+          { type: 'skill', value: 'Node.js', confidence: 0.95, yearsOfExperience: 6 },
+          { type: 'skill', value: 'PostgreSQL', confidence: 0.92, yearsOfExperience: 4 },
+          { type: 'skill', value: 'REST API', confidence: 0.95, yearsOfExperience: 6 },
+          { type: 'skill', value: 'Tailwind CSS', confidence: 0.90, yearsOfExperience: 3 }
+        ]
+      }
+    }
+  });
+
   const priyaResume = await prisma.resume.create({
     data: {
       candidateId: candidate2.id,
@@ -165,6 +217,26 @@ Experience:
   const alexMatch = await prisma.match.create({
     data: {
       resumeId: alexResume.id,
+      jobPostingId: jobPosting.id,
+      lexicalScore: 92.5,
+      semanticScore: 89.0,
+      finalScore: 91.1,
+      matchedSkills: JSON.stringify(['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'REST API']),
+      missingSkills: JSON.stringify(['Docker', 'AI Integration']),
+      explanation: 'Candidate shows exceptional alignment with core mandatory skill set (React, TypeScript, Node.js, Postgres). High lexical matching rate (92.5%) complemented by strong semantic contextual fit.',
+      skillGaps: {
+        create: [
+          { skill: 'React', importance: 'must_have', status: 'matched', suggestionText: 'Solid 6-year demonstrated history in React.' },
+          { skill: 'TypeScript', importance: 'must_have', status: 'matched', suggestionText: 'Strong type safety and architecture background.' },
+          { skill: 'Docker', importance: 'nice_to_have', status: 'missing', suggestionText: 'Adding containerization concepts will elevate candidate profile to top tier.' }
+        ]
+      }
+    }
+  });
+
+  const demoMatch = await prisma.match.create({
+    data: {
+      resumeId: demoResume.id,
       jobPostingId: jobPosting.id,
       lexicalScore: 92.5,
       semanticScore: 89.0,
