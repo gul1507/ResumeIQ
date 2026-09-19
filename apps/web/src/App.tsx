@@ -9,6 +9,7 @@ import { AdminDashboard } from './pages/AdminDashboard';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { UserRole } from './types';
+import { OnboardingTour } from './components/OnboardingTour';
 
 const RequireRole: React.FC<{ allowedRoles: UserRole[]; children: React.ReactNode }> = ({ allowedRoles, children }) => {
   const { user } = useAuth();
@@ -38,8 +39,9 @@ const AuthRedirect: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 };
 
 export const AppContent: React.FC = () => {
+  const { user } = useAuth();
   return (
-    <div className="min-h-screen flex flex-col bg-[#090d16] text-slate-100 font-sans">
+    <div className="min-h-screen flex flex-col bg-obsidian-950 text-slate-100 font-sans selection:bg-indigo-500/30 selection:text-indigo-200">
       <Navbar />
       <main className="flex-1">
         <Routes>
@@ -88,9 +90,12 @@ export const AppContent: React.FC = () => {
         </Routes>
       </main>
 
-      <footer className="border-t border-slate-900 bg-[#060910] py-6 text-center text-xs text-slate-500">
-        <p>© 2026 ResumeIQ. Hybrid AI Applicant Tracking & Resume Optimization Engine.</p>
+      <footer className="border-t border-white/[0.06] bg-obsidian-950 py-6 text-center text-xs text-slate-500">
+        <p>© 2026 ResumeIQ • Hybrid ATS Architecture &amp; Factual Optimization Engine.</p>
       </footer>
+
+      {/* Onboarding tour — shown once to new visitors on candidate view */}
+      {user?.role === 'candidate' && <OnboardingTour />}
     </div>
   );
 };
