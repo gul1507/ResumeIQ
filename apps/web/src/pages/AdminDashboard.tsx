@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { AuditLog } from '../types';
-import { ShieldCheck, Users, History, Lock, Search, RefreshCw, FileText, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, Users, History, Lock, Search, RefreshCw, FileText, CheckCircle2, Terminal } from 'lucide-react';
 
 export const AdminDashboard: React.FC = () => {
   const { token } = useAuth();
@@ -98,8 +98,8 @@ export const AdminDashboard: React.FC = () => {
   };
 
   const filteredLogs = logs.filter(l =>
-    (l.action || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (l.actorEmail || '').toLowerCase().includes(searchQuery.toLowerCase())
+    l.action.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (l.actorEmail && l.actorEmail.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
   return (
@@ -109,25 +109,25 @@ export const AdminDashboard: React.FC = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8 relative z-10">
         
         {/* Top Header Banner */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-obsidian-900 border border-white/[0.08] p-6 rounded-2xl shadow-card-lift">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-[#0B1019]/85 border border-white/[0.09] p-6 rounded-2xl shadow-[0_16px_40px_rgba(0,0,0,0.7)] backdrop-blur-xl">
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-400">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#00F5A0]">
               Governance & Algorithmic Transparency
             </span>
             <h1 className="font-display text-2xl font-bold text-white mt-1 tracking-tight">
               Audit Logs & Compliance Oversight
             </h1>
-            <p className="text-xs text-slate-400 mt-1 max-w-2xl">
+            <p className="text-xs text-slate-400 mt-1 max-w-2xl font-sans">
               Immutable audit ledger recording all parsing operations, hybrid match scoring calculations, and recruiter hiring actions.
             </p>
           </div>
 
           {/* Tab Switcher */}
-          <div className="flex items-center gap-1 bg-obsidian-950 p-1.5 rounded-xl border border-white/[0.06]">
+          <div className="flex items-center gap-1 bg-[#05070B] p-1.5 rounded-xl border border-white/[0.08]">
             <button
               onClick={() => setActiveTab('audit')}
               className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                activeTab === 'audit' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200'
+                activeTab === 'audit' ? 'bg-[#FF5C00] text-white shadow-sm' : 'text-slate-400 hover:text-slate-200'
               }`}
             >
               <History className="h-4 w-4" />
@@ -136,7 +136,7 @@ export const AdminDashboard: React.FC = () => {
             <button
               onClick={() => setActiveTab('users')}
               className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                activeTab === 'users' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-400 hover:text-slate-200'
+                activeTab === 'users' ? 'bg-[#FF5C00] text-white shadow-sm' : 'text-slate-400 hover:text-slate-200'
               }`}
             >
               <Users className="h-4 w-4" />
@@ -150,7 +150,7 @@ export const AdminDashboard: React.FC = () => {
           <div className="space-y-4">
             
             {/* Search Bar */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-obsidian-900 border border-white/[0.08] p-4 rounded-xl shadow-sm">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#0B1019]/85 border border-white/[0.09] p-4 rounded-xl shadow-sm backdrop-blur-xl">
               <div className="relative w-full sm:w-72">
                 <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
                 <input
@@ -158,7 +158,7 @@ export const AdminDashboard: React.FC = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search by action or actor email..."
-                  className="w-full bg-obsidian-950 border border-white/[0.12] rounded-lg pl-9 pr-3 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                  className="w-full bg-[#05070B] border border-white/[0.12] rounded-lg pl-9 pr-3 py-1.5 text-xs text-white focus:outline-none focus:border-[#00F5A0] transition-colors font-sans"
                 />
               </div>
 
@@ -166,16 +166,16 @@ export const AdminDashboard: React.FC = () => {
                 onClick={() => fetchAuditLogs(page)}
                 className="px-3.5 py-1.5 btn-secondary-obsidian text-slate-300 hover:text-white text-xs font-medium rounded-xl flex items-center gap-1.5 transition-all"
               >
-                <RefreshCw className="h-3.5 w-3.5 text-indigo-400" />
+                <RefreshCw className={`h-3.5 w-3.5 text-[#00F5A0] ${loading ? 'animate-spin' : ''}`} />
                 <span>Refresh Ledger</span>
               </button>
             </div>
 
             {/* Audit Table */}
-            <div className="bg-obsidian-900 border border-white/[0.08] rounded-2xl overflow-hidden shadow-card-lift">
+            <div className="bg-[#0B1019]/85 border border-white/[0.09] rounded-2xl overflow-hidden shadow-[0_16px_40px_rgba(0,0,0,0.7)] backdrop-blur-xl">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs text-slate-300">
-                  <thead className="bg-obsidian-950/80 border-b border-white/[0.08] text-[10px] uppercase tracking-widest font-bold text-slate-400">
+                  <thead className="bg-[#05070B] border-b border-white/[0.08] text-[10px] uppercase tracking-widest font-mono font-bold text-slate-400">
                     <tr>
                       <th className="py-3.5 px-4">Timestamp</th>
                       <th className="py-3.5 px-4">Actor</th>
@@ -193,11 +193,11 @@ export const AdminDashboard: React.FC = () => {
                         <td className="py-3.5 px-4">
                           <div className="flex flex-col">
                             <span className="font-semibold text-white font-sans">{log.actorEmail || 'System'}</span>
-                            <span className="text-[10px] text-indigo-400 uppercase font-mono">{log.actorRole || 'System'}</span>
+                            <span className="text-[10px] text-[#00C9FF] uppercase font-mono">{log.actorRole || 'System'}</span>
                           </div>
                         </td>
                         <td className="py-3.5 px-4">
-                          <span className="px-2 py-0.5 rounded-md bg-indigo-500/15 text-indigo-300 border border-indigo-500/30 font-semibold text-[10px]">
+                          <span className="px-2 py-0.5 rounded-md bg-[#00F5A0]/15 text-[#00F5A0] border border-[#00F5A0]/30 font-semibold text-[10px]">
                             {log.action}
                           </span>
                         </td>
@@ -221,7 +221,7 @@ export const AdminDashboard: React.FC = () => {
               </div>
 
               {/* Pagination */}
-              <div className="p-4 border-t border-white/[0.08] bg-obsidian-950 flex items-center justify-between text-xs">
+              <div className="p-4 border-t border-white/[0.08] bg-[#05070B] flex items-center justify-between text-xs">
                 <span className="text-slate-400 font-mono text-[11px]">
                   Page <strong className="text-white">{page}</strong> of <strong className="text-white">{totalPages}</strong>
                 </span>
@@ -229,14 +229,14 @@ export const AdminDashboard: React.FC = () => {
                   <button
                     onClick={() => setPage(p => Math.max(1, p - 1))}
                     disabled={page === 1}
-                    className="px-3 py-1 btn-secondary-obsidian disabled:opacity-40 text-slate-300 rounded-lg text-xs"
+                    className="px-3 py-1 btn-secondary-obsidian disabled:opacity-40 text-slate-300 rounded-lg text-xs font-mono"
                   >
                     Previous
                   </button>
                   <button
                     onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                     disabled={page >= totalPages}
-                    className="px-3 py-1 btn-secondary-obsidian disabled:opacity-40 text-slate-300 rounded-lg text-xs"
+                    className="px-3 py-1 btn-secondary-obsidian disabled:opacity-40 text-slate-300 rounded-lg text-xs font-mono"
                   >
                     Next
                   </button>
@@ -250,9 +250,9 @@ export const AdminDashboard: React.FC = () => {
 
         {/* User Management View */}
         {activeTab === 'users' && (
-          <div className="bg-obsidian-900 border border-white/[0.08] rounded-2xl overflow-hidden shadow-card-lift">
+          <div className="bg-[#0B1019]/85 border border-white/[0.09] rounded-2xl overflow-hidden shadow-[0_16px_40px_rgba(0,0,0,0.7)] backdrop-blur-xl">
             <table className="w-full text-left text-xs text-slate-300">
-              <thead className="bg-obsidian-950/80 border-b border-white/[0.08] text-[10px] uppercase tracking-widest font-bold text-slate-400">
+              <thead className="bg-[#05070B] border-b border-white/[0.08] text-[10px] uppercase tracking-widest font-mono font-bold text-slate-400">
                 <tr>
                   <th className="py-3.5 px-4">User Name & Email</th>
                   <th className="py-3.5 px-4">Role</th>
@@ -265,23 +265,27 @@ export const AdminDashboard: React.FC = () => {
                   <tr key={u.id} className="hover:bg-white/[0.03] transition-colors">
                     <td className="py-3.5 px-4">
                       <div className="flex flex-col">
-                        <span className="font-bold text-white text-sm">{u.name || u.email.split('@')[0]}</span>
+                        <span className="font-bold text-white text-sm font-display">{u.name || u.email.split('@')[0]}</span>
                         <span className="text-slate-400 text-xs font-mono">{u.email}</span>
                       </div>
                     </td>
                     <td className="py-3.5 px-4">
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
+                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider ${
+                        u.role === 'admin' 
+                          ? 'bg-[#00F5A0]/15 text-[#00F5A0] border border-[#00F5A0]/30' 
+                          : (u.role === 'recruiter' ? 'bg-[#00C9FF]/15 text-[#00C9FF] border border-[#00C9FF]/30' : 'bg-[#FF5C00]/15 text-[#FFA133] border border-[#FF5C00]/30')
+                      }`}>
                         {u.role}
                       </span>
                     </td>
-                    <td className="py-3.5 px-4 text-slate-400">
+                    <td className="py-3.5 px-4 text-slate-400 font-sans">
                       {u.isGuest ? 'Guest Session' : 'Registered Account'}
                     </td>
                     <td className="py-3.5 px-4 text-right">
                       <select
                         value={u.role}
                         onChange={(e) => handleRoleToggle(u.id, e.target.value)}
-                        className="bg-obsidian-950 border border-white/[0.12] rounded-lg px-2.5 py-1 text-xs text-white focus:outline-none"
+                        className="bg-[#05070B] border border-white/[0.12] rounded-lg px-2.5 py-1 text-xs text-white focus:outline-none font-mono"
                       >
                         <option value="candidate">Candidate</option>
                         <option value="recruiter">Recruiter</option>

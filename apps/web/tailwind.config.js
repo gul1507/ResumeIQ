@@ -9,66 +9,87 @@ export default {
     extend: {
       colors: {
         obsidian: {
-          950: '#080C14',
-          900: '#0D1321',
-          850: '#111827',
-          800: '#151D30',
-          700: '#1E293B',
-          600: '#334155'
+          950: '#05070B',
+          900: '#070A10',
+          850: '#0B1019',
+          800: '#0F1623',
+          750: '#141D2E',
+          700: '#1A263C',
+          600: '#283955',
+          500: '#3D5377'
         },
         brand: {
-          50: '#eef2ff',
-          100: '#e0e7ff',
-          200: '#c7d2fe',
-          400: '#818cf8',
-          500: '#6366f1',
-          600: '#4f46e5',
-          700: '#4338ca',
-          800: '#3730a3',
-          900: '#312e81',
-          950: '#1e1b4b',
+          50: '#fff7ed',
+          100: '#ffedd5',
+          200: '#fed7aa',
+          300: '#fdba74',
+          400: '#fb923c',
+          500: '#ff5c00', // Electric Vermilion Flame
+          600: '#ea580c',
+          700: '#c2410c',
+          800: '#9a3412',
+          900: '#7c2d12',
+          950: '#431407',
+        },
+        indigo: {
+          400: '#fb923c',
+          500: '#ff5c00',
+          600: '#ea580c',
+          700: '#c2410c',
+          800: '#9a3412',
+          900: '#7c2d12',
+        },
+        radar: {
+          cyan: '#00C9FF',
+          teal: '#00F5A0',
+          amber: '#FFA133',
+          crimson: '#FF2E63',
+          violet: '#A855F7',
         },
         accent: {
-          teal: '#14b8a6',
+          teal: '#00F5A0',
           emerald: '#10b981',
-          cyan: '#06b6d4',
-          violet: '#8b5cf6',
-          amber: '#f59e0b',
-          rose: '#f43f5e'
+          cyan: '#00C9FF',
+          violet: '#a855f7',
+          amber: '#FFA133',
+          rose: '#FF2E63'
         },
         surface: {
-          50: '#0f172a',
-          100: '#1e293b',
-          200: '#334155',
-          300: '#475569',
-          800: '#0D1321',
-          900: '#080C14'
+          50: '#0B1019',
+          100: '#0F1623',
+          200: '#141D2E',
+          300: '#1A263C',
+          800: '#070A10',
+          900: '#05070B'
         },
         match: {
-          strong: '#10b981',   // Emerald
-          moderate: '#f59e0b', // Amber
-          weak: '#ef4444'      // Rose
+          strong: '#00F5A0',   // Signal Emerald
+          moderate: '#FFA133', // Electric Amber
+          weak: '#FF2E63'      // Hot Crimson
         }
       },
       boxShadow: {
-        'glow-indigo': '0 0 30px -5px rgba(99, 102, 241, 0.25)',
-        'glow-teal': '0 0 30px -5px rgba(20, 184, 166, 0.25)',
-        'glow-emerald': '0 0 30px -5px rgba(16, 185, 129, 0.25)',
-        'card-lift': '0 10px 30px -10px rgba(0, 0, 0, 0.5), 0 0 1px 1px rgba(255, 255, 255, 0.08)'
+        'glow-brand': '0 0 30px -4px rgba(255, 92, 0, 0.35)',
+        'glow-indigo': '0 0 30px -4px rgba(255, 92, 0, 0.35)',
+        'glow-teal': '0 0 30px -4px rgba(0, 245, 160, 0.3)',
+        'glow-cyan': '0 0 30px -4px rgba(0, 201, 255, 0.3)',
+        'glow-emerald': '0 0 30px -4px rgba(0, 245, 160, 0.3)',
+        'tactile-card': '0 12px 40px -10px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.08)',
+        'card-lift': '0 12px 35px -8px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
       },
       backgroundImage: {
-        'radial-glow': 'radial-gradient(ellipse at top, rgba(99, 102, 241, 0.15), transparent 70%)',
-        'radial-glow-hero': 'radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.25), rgba(13, 19, 33, 0))',
-        'gradient-dark-card': 'linear-gradient(180deg, rgba(21, 29, 48, 0.6) 0%, rgba(13, 19, 33, 0.8) 100%)'
+        'radial-glow': 'radial-gradient(ellipse at top, rgba(255, 92, 0, 0.12), transparent 70%)',
+        'radial-glow-hero': 'radial-gradient(ellipse 80% 60% at 50% -10%, rgba(255, 92, 0, 0.15), rgba(7, 10, 16, 0))',
+        'gradient-dark-card': 'linear-gradient(180deg, rgba(15, 22, 35, 0.75) 0%, rgba(7, 10, 16, 0.85) 100%)'
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Space Grotesk', 'Inter', 'sans-serif'],
-        mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
+        sans: ['Outfit', 'sans-serif'],
+        display: ['Syne', 'Outfit', 'sans-serif'],
+        mono: ['Fira Code', 'JetBrains Mono', 'monospace'],
       },
       keyframes: {
         'fade-in-up': {
-          '0%': { opacity: '0', transform: 'translateY(24px)' },
+          '0%': { opacity: '0', transform: 'translateY(18px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         'gradient-x': {
@@ -77,17 +98,21 @@ export default {
         },
         'orb-drift': {
           '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
-          '33%': { transform: 'translate(30px, -20px) scale(1.05)' },
-          '66%': { transform: 'translate(-20px, 10px) scale(0.97)' },
+          '33%': { transform: 'translate(35px, -25px) scale(1.06)' },
+          '66%': { transform: 'translate(-25px, 15px) scale(0.96)' },
         },
         shimmer: {
           '0%': { backgroundPosition: '-200% 0' },
           '100%': { backgroundPosition: '200% 0' },
         },
         'glow-pulse': {
-          '0%, 100%': { boxShadow: '0 0 20px rgba(99, 102, 241, 0.15)' },
-          '50%': { boxShadow: '0 0 40px rgba(99, 102, 241, 0.35), 0 0 80px rgba(99, 102, 241, 0.1)' },
+          '0%, 100%': { boxShadow: '0 0 20px rgba(255, 92, 0, 0.2)' },
+          '50%': { boxShadow: '0 0 45px rgba(255, 92, 0, 0.4), 0 0 90px rgba(255, 92, 0, 0.15)' },
         },
+        'radar-sweep': {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' }
+        }
       },
       animation: {
         'fade-in-up': 'fade-in-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
@@ -95,6 +120,7 @@ export default {
         'orb': 'orb-drift 18s ease-in-out infinite',
         shimmer: 'shimmer 1.6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'glow-pulse': 'glow-pulse 3s ease-in-out infinite',
+        'radar-sweep': 'radar-sweep 8s linear infinite'
       }
     },
   },

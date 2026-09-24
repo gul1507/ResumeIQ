@@ -305,10 +305,10 @@ export const CandidateDashboard: React.FC = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8 relative z-10">
         
         {/* Top Header Banner */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-obsidian-900 border border-white/[0.08] p-6 rounded-2xl shadow-card-lift">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-[#0B1019]/85 border border-white/[0.09] p-6 rounded-2xl shadow-[0_16px_40px_rgba(0,0,0,0.7)] backdrop-blur-xl">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-400">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#FF5C00]">
                 Candidate ATS Optimization Studio
               </span>
               {isDemoFallback && (
@@ -320,7 +320,7 @@ export const CandidateDashboard: React.FC = () => {
             <h1 className="font-display text-2xl font-bold text-white mt-1 tracking-tight">
               Resume Diagnostics & Keyword Tailoring
             </h1>
-            <p className="text-xs text-slate-400 mt-1 max-w-2xl">
+            <p className="text-xs text-slate-400 mt-1 max-w-2xl font-sans">
               Inspect your ATS match percentage with explicit lexical vs. semantic contribution weights, diagnose missing requisition skills, and generate verified bullet points.
             </p>
           </div>
@@ -331,7 +331,7 @@ export const CandidateDashboard: React.FC = () => {
               className="px-3.5 py-2 btn-secondary-obsidian text-slate-300 hover:text-white text-xs font-semibold rounded-xl flex items-center gap-1.5 transition-all shadow-sm"
               title="Clear current state and reset workspace"
             >
-              <RotateCcw className="h-3.5 w-3.5 text-indigo-400" />
+              <RotateCcw className="h-3.5 w-3.5 text-[#FFA133]" />
               <span>Reset Workspace</span>
             </button>
           </div>
@@ -349,22 +349,22 @@ export const CandidateDashboard: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           
           {/* Card 1: Resume Source (Upload or Presets) */}
-          <div className="bg-obsidian-900 border border-white/[0.08] rounded-2xl p-6 shadow-card-lift flex flex-col justify-between space-y-4">
+          <div className="bg-[#0B1019]/85 border border-white/[0.09] rounded-2xl p-6 shadow-[0_16px_40px_rgba(0,0,0,0.7)] backdrop-blur-xl flex flex-col justify-between space-y-4">
             <div>
               <div className="flex items-center justify-between mb-3">
-                <h2 className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
-                  <FileText className="h-4 w-4 text-indigo-400" />
+                <h2 className="font-display text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
+                  <FileText className="h-4 w-4 text-[#FF5C00]" />
                   1. Resume Source Selection
                 </h2>
                 
                 {/* Switcher tabs */}
-                <div className="flex bg-obsidian-950 p-1 rounded-xl border border-white/[0.06]">
+                <div className="flex bg-[#05070B] p-1 rounded-xl border border-white/[0.08]">
                   <button
                     type="button"
                     onClick={() => { setUploadMode('preset'); setValidationError(''); }}
                     className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all ${
                       uploadMode === 'preset'
-                        ? 'bg-indigo-600 text-white shadow-sm'
+                        ? 'bg-[#FF5C00] text-white shadow-sm'
                         : 'text-slate-400 hover:text-white'
                     }`}
                   >
@@ -375,7 +375,7 @@ export const CandidateDashboard: React.FC = () => {
                     onClick={() => { setUploadMode('file'); setValidationError(''); }}
                     className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all ${
                       uploadMode === 'file'
-                        ? 'bg-indigo-600 text-white shadow-sm'
+                        ? 'bg-[#FF5C00] text-white shadow-sm'
                         : 'text-slate-400 hover:text-white'
                     }`}
                   >
@@ -397,13 +397,13 @@ export const CandidateDashboard: React.FC = () => {
                         onClick={() => setSelectedPreset(preset)}
                         className={`p-3.5 rounded-xl border cursor-pointer transition-all flex items-center justify-between ${
                           selectedPreset.id === preset.id
-                            ? 'bg-indigo-500/15 border-indigo-500/50 shadow-glow-indigo'
-                            : 'bg-obsidian-950 border-white/[0.06] hover:border-white/[0.15] hover:bg-obsidian-850'
+                            ? 'bg-[#FF5C00]/15 border-[#FF5C00]/50 shadow-[0_0_15px_rgba(255,92,0,0.25)]'
+                            : 'bg-[#05070B] border-white/[0.06] hover:border-white/[0.15] hover:bg-[#0F1623]'
                         }`}
                       >
                         <div className="flex items-center gap-3">
                           <div className={`h-8 w-8 rounded-lg flex items-center justify-center ${
-                            selectedPreset.id === preset.id ? 'bg-indigo-500 text-white' : 'bg-obsidian-900 text-slate-400'
+                            selectedPreset.id === preset.id ? 'bg-[#FF5C00] text-white' : 'bg-[#141D2E] text-slate-400'
                           }`}>
                             <FileCheck className="h-4 w-4" />
                           </div>
@@ -412,12 +412,12 @@ export const CandidateDashboard: React.FC = () => {
                               <span className="font-bold text-xs text-white">{preset.candidateName}</span>
                               <span className="text-[10px] text-slate-400 font-mono">• {preset.experienceLevel}</span>
                             </div>
-                            <span className="text-[11px] text-indigo-300 font-medium">{preset.title}</span>
+                            <span className="text-[11px] text-[#FFA133] font-medium">{preset.title}</span>
                           </div>
                         </div>
 
                         {selectedPreset.id === preset.id && (
-                          <div className="h-5 w-5 rounded-full bg-indigo-500 text-white flex items-center justify-center">
+                          <div className="h-5 w-5 rounded-full bg-[#FF5C00] text-white flex items-center justify-center">
                             <Check className="h-3 w-3 stroke-[3]" />
                           </div>
                         )}
@@ -434,8 +434,8 @@ export const CandidateDashboard: React.FC = () => {
                   onDrop={handleDrop}
                   className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all ${
                     file 
-                      ? 'border-emerald-500/50 bg-emerald-500/10' 
-                      : (dragActive ? 'border-indigo-500 bg-indigo-500/15' : 'border-white/[0.12] hover:border-indigo-500/40 bg-obsidian-950/60')
+                      ? 'border-[#00F5A0]/50 bg-[#00F5A0]/10' 
+                      : (dragActive ? 'border-[#FF5C00] bg-[#FF5C00]/15' : 'border-white/[0.12] hover:border-[#FF5C00]/40 bg-[#05070B]')
                   }`}
                 >
                   <input
@@ -447,15 +447,15 @@ export const CandidateDashboard: React.FC = () => {
                     className="hidden"
                   />
                   <label htmlFor="resume-upload" className="cursor-pointer flex flex-col items-center">
-                    <UploadCloud className={`h-11 w-11 mb-2 transition-colors ${file ? 'text-emerald-400' : 'text-slate-500 group-hover:text-indigo-400'}`} />
+                    <UploadCloud className={`h-11 w-11 mb-2 transition-colors ${file ? 'text-[#00F5A0]' : 'text-slate-500 group-hover:text-[#FF5C00]'}`} />
                     {file ? (
                       <div className="flex flex-col items-center gap-2">
-                        <div className="flex items-center gap-2.5 bg-obsidian-900 px-4 py-2 rounded-xl border border-emerald-500/30 shadow-md">
-                          <FileText className="h-4 w-4 text-emerald-400" />
-                          <span className="text-xs font-bold text-emerald-200">
+                        <div className="flex items-center gap-2.5 bg-[#0B1019] px-4 py-2 rounded-xl border border-[#00F5A0]/30 shadow-md">
+                          <FileText className="h-4 w-4 text-[#00F5A0]" />
+                          <span className="text-xs font-bold text-[#00F5A0]">
                             {file.name}
                           </span>
-                          <span className="text-[10px] font-mono text-slate-400 px-1.5 py-0.5 rounded bg-obsidian-950 border border-white/[0.08]">
+                          <span className="text-[10px] font-mono text-slate-400 px-1.5 py-0.5 rounded bg-[#05070B] border border-white/[0.08]">
                             {(file.size / 1024).toFixed(0)} KB
                           </span>
                           <button
@@ -498,16 +498,16 @@ export const CandidateDashboard: React.FC = () => {
           </div>
 
           {/* Card 2: Target Job Description */}
-          <div className="bg-obsidian-900 border border-white/[0.08] rounded-2xl p-6 shadow-card-lift flex flex-col justify-between space-y-4">
+          <div className="bg-[#0B1019]/85 border border-white/[0.09] rounded-2xl p-6 shadow-[0_16px_40px_rgba(0,0,0,0.7)] backdrop-blur-xl flex flex-col justify-between space-y-4">
             <div>
-              <h2 className="text-xs font-bold uppercase tracking-wider text-white mb-1 flex items-center gap-2">
-                <Briefcase className="h-4 w-4 text-indigo-400" />
+              <h2 className="font-display text-xs font-bold uppercase tracking-wider text-white mb-1 flex items-center gap-2">
+                <Briefcase className="h-4 w-4 text-[#00C9FF]" />
                 2. Target Requisition & Role
               </h2>
-              <p className="text-xs text-slate-400 mb-3">Select a live requisition to benchmark against:</p>
+              <p className="text-xs text-slate-400 mb-3 font-sans">Select a live requisition to benchmark against:</p>
 
               <div className="mb-3">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 block mb-1">
+                <label className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400 block mb-1">
                   Active Requisitions
                 </label>
                 <select
@@ -518,7 +518,7 @@ export const CandidateDashboard: React.FC = () => {
                     setActiveMatch(null);
                     setTailoredResult(null);
                   }}
-                  className="w-full bg-obsidian-950 border border-white/[0.12] rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition-colors font-medium"
+                  className="w-full bg-[#05070B] border border-white/[0.12] rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#FF5C00] transition-colors font-medium font-sans"
                 >
                   {jobs.map(j => (
                     <option key={j.id} value={j.id}>
@@ -529,7 +529,7 @@ export const CandidateDashboard: React.FC = () => {
               </div>
 
               <div>
-                <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 block mb-1">
+                <label className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400 block mb-1">
                   Or Paste Custom Job Description
                 </label>
                 <textarea
@@ -537,7 +537,7 @@ export const CandidateDashboard: React.FC = () => {
                   onChange={(e) => setCustomJdText(e.target.value)}
                   rows={ uploadMode === 'preset' ? 3 : 4 }
                   placeholder="Paste custom requirements or responsibilities..."
-                  className="w-full bg-obsidian-950 border border-white/[0.12] rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors font-sans"
+                  className="w-full bg-[#05070B] border border-white/[0.12] rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-[#FF5C00] transition-colors font-sans"
                 />
               </div>
             </div>
@@ -546,11 +546,11 @@ export const CandidateDashboard: React.FC = () => {
             <button
               onClick={runFullPipeline}
               disabled={pipelineState !== 'idle' && pipelineState !== 'done'}
-              className="w-full py-3.5 btn-primary-glow text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 active:scale-[0.98]"
+              className="w-full py-4 btn-primary-glow text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_10px_30px_rgba(255,92,0,0.35)] flex items-center justify-center gap-2 active:scale-[0.98]"
             >
               {pipelineState === 'idle' || pipelineState === 'done' ? (
                 <>
-                  <Sparkles className="h-4 w-4 text-indigo-200" />
+                  <Sparkles className="h-4 w-4 text-white" />
                   <span>Compute Hybrid ATS Match Score</span>
                 </>
               ) : (
@@ -566,17 +566,17 @@ export const CandidateDashboard: React.FC = () => {
 
         {/* Pipeline Stepper Shimmer Animation */}
         {pipelineState !== 'idle' && (
-          <div className="bg-obsidian-900 border border-white/[0.08] rounded-2xl p-5 shadow-card-lift">
-            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-              <Layers className="h-4 w-4 text-indigo-400" />
+          <div className="bg-[#0B1019]/85 border border-white/[0.09] rounded-2xl p-5 shadow-[0_16px_40px_rgba(0,0,0,0.7)] backdrop-blur-xl">
+            <h3 className="font-display text-xs font-bold text-slate-300 uppercase tracking-widest mb-4 flex items-center gap-2">
+              <Layers className="h-4 w-4 text-[#FFA133]" />
               Hybrid AI Processing Stages
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
               <div className={`p-3 rounded-xl border flex items-center gap-2.5 transition-all ${
                 pipelineState === 'parsing' 
-                  ? 'bg-indigo-500/20 border-indigo-500 text-indigo-200 animate-pulse' 
-                  : (pipelineState === 'embedding' || pipelineState === 'scoring' || pipelineState === 'done' ? 'bg-obsidian-950 border-emerald-500/30 text-emerald-400' : 'bg-obsidian-950 border-white/[0.06] text-slate-500')
+                  ? 'bg-[#FF5C00]/20 border-[#FF5C00] text-[#FFA133] animate-pulse' 
+                  : (pipelineState === 'embedding' || pipelineState === 'scoring' || pipelineState === 'done' ? 'bg-[#05070B] border-[#00F5A0]/30 text-[#00F5A0]' : 'bg-[#05070B] border-white/[0.06] text-slate-500')
               }`}>
                 <CheckCircle2 className="h-4 w-4 shrink-0" />
                 <span className="font-semibold">1. Entity Extraction</span>
@@ -584,8 +584,8 @@ export const CandidateDashboard: React.FC = () => {
 
               <div className={`p-3 rounded-xl border flex items-center gap-2.5 transition-all ${
                 pipelineState === 'embedding' 
-                  ? 'bg-indigo-500/20 border-indigo-500 text-indigo-200 animate-pulse' 
-                  : (pipelineState === 'scoring' || pipelineState === 'done' ? 'bg-obsidian-950 border-emerald-500/30 text-emerald-400' : 'bg-obsidian-950 border-white/[0.06] text-slate-500')
+                  ? 'bg-[#FF5C00]/20 border-[#FF5C00] text-[#FFA133] animate-pulse' 
+                  : (pipelineState === 'scoring' || pipelineState === 'done' ? 'bg-[#05070B] border-[#00F5A0]/30 text-[#00F5A0]' : 'bg-[#05070B] border-white/[0.06] text-slate-500')
               }`}>
                 <CheckCircle2 className="h-4 w-4 shrink-0" />
                 <span className="font-semibold">2. Vector Embeddings</span>
@@ -593,8 +593,8 @@ export const CandidateDashboard: React.FC = () => {
 
               <div className={`p-3 rounded-xl border flex items-center gap-2.5 transition-all ${
                 pipelineState === 'scoring' 
-                  ? 'bg-indigo-500/20 border-indigo-500 text-indigo-200 animate-pulse' 
-                  : (pipelineState === 'done' ? 'bg-obsidian-950 border-emerald-500/30 text-emerald-400' : 'bg-obsidian-950 border-white/[0.06] text-slate-500')
+                  ? 'bg-[#FF5C00]/20 border-[#FF5C00] text-[#FFA133] animate-pulse' 
+                  : (pipelineState === 'done' ? 'bg-[#05070B] border-[#00F5A0]/30 text-[#00F5A0]' : 'bg-[#05070B] border-white/[0.06] text-slate-500')
               }`}>
                 <CheckCircle2 className="h-4 w-4 shrink-0" />
                 <span className="font-semibold">3. Hybrid ATS Score</span>
@@ -602,8 +602,8 @@ export const CandidateDashboard: React.FC = () => {
 
               <div className={`p-3 rounded-xl border flex items-center gap-2.5 transition-all ${
                 pipelineState === 'done' 
-                  ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 font-bold' 
-                  : 'bg-obsidian-950 border-white/[0.06] text-slate-500'
+                  ? 'bg-[#00F5A0]/15 border-[#00F5A0]/40 text-[#00F5A0] font-bold' 
+                  : 'bg-[#05070B] border-white/[0.06] text-slate-500'
               }`}>
                 <CheckCircle2 className="h-4 w-4 shrink-0" />
                 <span>4. Diagnostics Ready</span>
@@ -614,7 +614,7 @@ export const CandidateDashboard: React.FC = () => {
 
         {/* Results Section */}
         {pipelineState === 'idle' && !activeMatch && (
-          <div className="bg-obsidian-900 border border-white/[0.08] rounded-2xl shadow-card-lift">
+          <div className="bg-[#0B1019]/85 border border-white/[0.09] rounded-2xl shadow-[0_16px_40px_rgba(0,0,0,0.7)] backdrop-blur-xl">
             <EmptyState
               variant="no-resume"
               onAction={() => runFullPipeline()}
@@ -638,21 +638,21 @@ export const CandidateDashboard: React.FC = () => {
               </div>
 
               {/* Natural Language Rationale & Skill Gap Matrix */}
-              <div className="lg:col-span-2 bg-obsidian-900 border border-white/[0.08] rounded-2xl p-6 shadow-card-lift space-y-5">
+              <div className="lg:col-span-2 bg-[#0B1019]/85 border border-white/[0.09] rounded-2xl p-6 shadow-[0_16px_40px_rgba(0,0,0,0.7)] backdrop-blur-xl space-y-5">
                 
                 <div className="flex items-center justify-between border-b border-white/[0.06] pb-3.5">
                   <div className="flex items-center gap-2">
-                    <Sparkles className="h-4 w-4 text-indigo-400" />
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-white">
+                    <Sparkles className="h-4 w-4 text-[#FFA133]" />
+                    <h3 className="font-display text-xs font-bold uppercase tracking-wider text-white">
                       AI Explainability Assessment
                     </h3>
                   </div>
-                  <span className="text-[10px] font-mono text-indigo-400 bg-indigo-500/10 px-2.5 py-0.5 rounded-full border border-indigo-500/25">
+                  <span className="text-[10px] font-mono text-[#00C9FF] bg-[#00C9FF]/10 px-2.5 py-0.5 rounded-full border border-[#00C9FF]/25">
                     Target: {currentSelectedJob.companyName}
                   </span>
                 </div>
 
-                <p className="text-xs text-slate-300 leading-relaxed font-sans bg-obsidian-950 p-4 rounded-xl border border-white/[0.06]">
+                <p className="text-xs text-slate-300 leading-relaxed font-sans bg-[#05070B] p-4 rounded-xl border border-white/[0.06]">
                   {activeMatch.explanation}
                 </p>
 
@@ -669,9 +669,9 @@ export const CandidateDashboard: React.FC = () => {
 
             {/* Tailored Diff Studio */}
             {loadingTailor && (
-              <div className="p-8 text-center bg-obsidian-900 border border-white/[0.08] rounded-2xl space-y-3 shadow-card-lift">
-                <Loader2 className="h-8 w-8 animate-spin text-indigo-400 mx-auto" />
-                <p className="text-xs text-slate-300 font-semibold">
+              <div className="p-8 text-center bg-[#0B1019]/85 border border-white/[0.09] rounded-2xl space-y-3 shadow-[0_16px_40px_rgba(0,0,0,0.7)] backdrop-blur-xl">
+                <Loader2 className="h-8 w-8 animate-spin text-[#FF5C00] mx-auto" />
+                <p className="text-xs text-slate-300 font-semibold font-mono">
                   Generating verified bullet rephrasings with target keywords...
                 </p>
               </div>
