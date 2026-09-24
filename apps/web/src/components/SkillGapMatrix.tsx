@@ -5,11 +5,12 @@ import {
   AlertTriangle, 
   Lightbulb, 
   Zap, 
-  Info, 
   ArrowRight,
   Sparkles,
   HelpCircle,
-  X
+  X,
+  Layers,
+  Cpu
 } from 'lucide-react';
 
 interface SkillGapMatrixProps {
@@ -54,26 +55,26 @@ export const SkillGapMatrix: React.FC<SkillGapMatrixProps> = ({
   return (
     <div className="space-y-6">
       
-      {/* High-End Action Banner for Candidates */}
+      {/* High-Impact AI Tailoring Banner */}
       {missingSkills.length > 0 && onTailorClick && (
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-indigo-950/70 via-obsidian-900 to-obsidian-900 border border-indigo-500/30 p-5 shadow-card-lift">
-          <div className="absolute top-0 right-0 -mt-8 -mr-8 w-44 h-44 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#FF5C00]/15 via-[#0B1019] to-[#0B1019] border border-[#FF5C00]/30 p-5 shadow-[0_16px_40px_rgba(0,0,0,0.7)] group">
+          <div className="absolute top-0 right-0 -mt-8 -mr-8 w-48 h-48 bg-[#FF5C00]/10 rounded-full blur-3xl pointer-events-none" />
           
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative z-10">
-            <div className="flex items-center gap-3.5">
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-500/20 text-indigo-400 border border-indigo-500/40 shadow-glow-indigo shrink-0">
-                <Zap className="h-5 w-5 fill-indigo-400/30" />
+            <div className="flex items-center gap-4">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#FF5C00]/20 text-[#FF5C00] border border-[#FF5C00]/40 shadow-[0_0_20px_rgba(255,92,0,0.3)] shrink-0">
+                <Cpu className="h-5 w-5" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
                   <h4 className="font-display font-bold text-white text-sm">
                     Rephrase Experience for {missingSkills.length} Missing Keywords
                   </h4>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#FF5C00]/20 text-[#FFA133] border border-[#FF5C00]/30">
                     AI Studio
                   </span>
                 </div>
-                <p className="text-xs text-slate-300 mt-0.5 max-w-xl">
+                <p className="text-xs text-slate-300 mt-1 max-w-xl">
                   Generate contextually grounded bullet revisions incorporating missing technical terms without falsifying past roles or credentials.
                 </p>
               </div>
@@ -83,9 +84,9 @@ export const SkillGapMatrix: React.FC<SkillGapMatrixProps> = ({
               onClick={onTailorClick}
               className="w-full sm:w-auto px-4 py-2.5 btn-primary-glow text-white font-bold text-xs rounded-xl transition-all shadow-md flex items-center justify-center gap-2 shrink-0 group active:scale-[0.98]"
             >
-              <Sparkles className="h-4 w-4 text-indigo-200" />
+              <Sparkles className="h-4 w-4 text-white" />
               <span>Launch AI Tailoring Studio</span>
-              <ArrowRight className="h-3.5 w-3.5 text-indigo-200 group-hover:translate-x-0.5 transition-transform" />
+              <ArrowRight className="h-3.5 w-3.5 text-white group-hover:translate-x-0.5 transition-transform" />
             </button>
           </div>
         </div>
@@ -93,17 +94,17 @@ export const SkillGapMatrix: React.FC<SkillGapMatrixProps> = ({
 
       {/* Interactive Chip Details Modal / Popover */}
       {selectedSkillTip && (
-        <div className="p-4 rounded-xl bg-obsidian-850 border border-white/[0.12] shadow-2xl relative animate-in fade-in-50 duration-200">
+        <div className="p-4 rounded-xl bg-[#0F1623] border border-white/[0.14] shadow-2xl relative animate-fade-in-up">
           <div className="flex items-start justify-between">
-            <div className="flex items-center gap-2">
-              <span className={`h-2 w-2 rounded-full ${selectedSkillTip.type === 'matched' ? 'bg-emerald-400' : 'bg-amber-400 animate-ping'}`} />
-              <span className="font-bold text-xs text-white uppercase tracking-wider">
+            <div className="flex items-center gap-2.5">
+              <span className={`h-2.5 w-2.5 rounded-full ${selectedSkillTip.type === 'matched' ? 'bg-[#00F5A0] shadow-[0_0_8px_#00F5A0]' : 'bg-[#FF2E63] shadow-[0_0_8px_#FF2E63]'}`} />
+              <span className="font-display font-bold text-xs text-white uppercase tracking-wider">
                 Skill Diagnostic: {selectedSkillTip.skill}
               </span>
               <span className={`text-[10px] font-mono px-2 py-0.5 rounded border ${
                 selectedSkillTip.type === 'matched' 
-                  ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/20' 
-                  : 'bg-amber-500/10 text-amber-300 border-amber-500/20'
+                  ? 'bg-[#00F5A0]/10 text-[#00F5A0] border-[#00F5A0]/25' 
+                  : 'bg-[#FF2E63]/10 text-[#FF2E63] border-[#FF2E63]/25'
               }`}>
                 {selectedSkillTip.impact}
               </span>
@@ -125,20 +126,20 @@ export const SkillGapMatrix: React.FC<SkillGapMatrixProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         
         {/* Matched Skills Card */}
-        <div className="bg-obsidian-900 border border-white/[0.08] rounded-2xl p-5 shadow-card-lift">
+        <div className="bg-[#0B1019]/80 border border-white/[0.08] rounded-2xl p-5 shadow-[0_12px_36px_rgba(0,0,0,0.6)]">
           <div className="flex items-center justify-between mb-4 border-b border-white/[0.06] pb-3">
-            <div className="flex items-center gap-2">
-              <div className="h-7 w-7 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+            <div className="flex items-center gap-2.5">
+              <div className="h-7 w-7 rounded-lg bg-[#00F5A0]/10 border border-[#00F5A0]/25 flex items-center justify-center text-[#00F5A0]">
                 <CheckCircle2 className="h-4 w-4" />
               </div>
               <div>
-                <h3 className="text-xs font-bold uppercase tracking-wider text-white">
+                <h3 className="font-display text-xs font-bold uppercase tracking-wider text-white">
                   Matched Competencies
                 </h3>
-                <span className="text-[10px] text-slate-400">Verified in submitted resume text</span>
+                <span className="text-[10px] text-slate-400 font-mono">Verified in submitted resume text</span>
               </div>
             </div>
-            <span className="text-xs font-mono font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full">
+            <span className="text-xs font-mono font-bold text-[#00F5A0] bg-[#00F5A0]/10 border border-[#00F5A0]/20 px-2.5 py-0.5 rounded-full">
               {matchedSkills.length} Verified
             </span>
           </div>
@@ -148,12 +149,12 @@ export const SkillGapMatrix: React.FC<SkillGapMatrixProps> = ({
               <button
                 key={idx}
                 onClick={() => handleChipClick(skill, 'matched')}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/20 hover:border-emerald-500/40 transition-all cursor-pointer group active:scale-[0.97]"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-[#00F5A0]/10 hover:bg-[#00F5A0]/20 text-[#00F5A0] border border-[#00F5A0]/25 hover:border-[#00F5A0]/50 transition-all cursor-pointer group active:scale-[0.97]"
                 title="Click to view impact details"
               >
-                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
+                <CheckCircle2 className="h-3.5 w-3.5 text-[#00F5A0]" />
                 <span>{skill}</span>
-                <span className="text-[10px] text-emerald-500 group-hover:text-emerald-300 font-mono ml-0.5">✓</span>
+                <span className="text-[10px] text-[#00F5A0]/70 font-mono ml-0.5">✓</span>
               </button>
             ))}
             {matchedSkills.length === 0 && (
@@ -163,20 +164,20 @@ export const SkillGapMatrix: React.FC<SkillGapMatrixProps> = ({
         </div>
 
         {/* Missing / Critical Gaps Card */}
-        <div className="bg-obsidian-900 border border-white/[0.08] rounded-2xl p-5 shadow-card-lift">
+        <div className="bg-[#0B1019]/80 border border-white/[0.08] rounded-2xl p-5 shadow-[0_12px_36px_rgba(0,0,0,0.6)]">
           <div className="flex items-center justify-between mb-4 border-b border-white/[0.06] pb-3">
-            <div className="flex items-center gap-2">
-              <div className="h-7 w-7 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+            <div className="flex items-center gap-2.5">
+              <div className="h-7 w-7 rounded-lg bg-[#FF2E63]/10 border border-[#FF2E63]/25 flex items-center justify-center text-[#FF2E63]">
                 <AlertTriangle className="h-4 w-4" />
               </div>
               <div>
-                <h3 className="text-xs font-bold uppercase tracking-wider text-white">
+                <h3 className="font-display text-xs font-bold uppercase tracking-wider text-white">
                   Identified Skill Gaps
                 </h3>
-                <span className="text-[10px] text-slate-400">Required by job posting</span>
+                <span className="text-[10px] text-slate-400 font-mono">Required by job posting</span>
               </div>
             </div>
-            <span className="text-xs font-mono font-bold text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2.5 py-0.5 rounded-full">
+            <span className="text-xs font-mono font-bold text-[#FFA133] bg-[#FFA133]/10 border border-[#FFA133]/20 px-2.5 py-0.5 rounded-full">
               {missingSkills.length} Gaps
             </span>
           </div>
@@ -186,16 +187,16 @@ export const SkillGapMatrix: React.FC<SkillGapMatrixProps> = ({
               <button
                 key={idx}
                 onClick={() => handleChipClick(skill, 'missing')}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/25 hover:border-amber-500/50 transition-all cursor-pointer group active:scale-[0.97]"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-[#FFA133]/10 hover:bg-[#FFA133]/20 text-[#FFA133] border border-[#FFA133]/25 hover:border-[#FFA133]/50 transition-all cursor-pointer group active:scale-[0.97]"
                 title="Click for suggested action & impact"
               >
-                <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
+                <span className="h-1.5 w-1.5 rounded-full bg-[#FFA133] animate-pulse" />
                 <span>{skill}</span>
-                <HelpCircle className="h-3 w-3 text-amber-400/60 group-hover:text-amber-300 ml-0.5" />
+                <HelpCircle className="h-3 w-3 text-[#FFA133]/60 group-hover:text-[#FFA133] ml-0.5" />
               </button>
             ))}
             {missingSkills.length === 0 && (
-              <p className="text-xs text-emerald-400 italic py-2 flex items-center gap-1.5 font-medium">
+              <p className="text-xs text-[#00F5A0] italic py-2 flex items-center gap-1.5 font-medium">
                 <CheckCircle2 className="h-4 w-4" />
                 Complete coverage! All core requirements satisfied.
               </p>
@@ -207,13 +208,13 @@ export const SkillGapMatrix: React.FC<SkillGapMatrixProps> = ({
 
       {/* Actionable Improvement Guidance Drawer / Card */}
       {skillGaps.length > 0 && (
-        <div className="bg-obsidian-900 border border-white/[0.08] rounded-2xl p-5 shadow-card-lift">
+        <div className="bg-[#0B1019]/80 border border-white/[0.08] rounded-2xl p-5 shadow-[0_12px_36px_rgba(0,0,0,0.6)]">
           <div className="flex items-center justify-between mb-3 border-b border-white/[0.06] pb-2.5">
-            <h4 className="text-xs font-bold text-slate-300 uppercase tracking-widest flex items-center gap-2">
-              <Lightbulb className="h-4 w-4 text-indigo-400" />
+            <h4 className="font-display text-xs font-bold text-slate-300 uppercase tracking-widest flex items-center gap-2">
+              <Lightbulb className="h-4 w-4 text-[#FFA133]" />
               Candidate Guidance & Impact Assessment
             </h4>
-            <span className="text-[10px] text-slate-500 font-mono">
+            <span className="text-[10px] text-slate-400 font-mono">
               Deterministic Weights
             </span>
           </div>
@@ -222,26 +223,26 @@ export const SkillGapMatrix: React.FC<SkillGapMatrixProps> = ({
             {skillGaps.slice(0, 6).map((gap, idx) => (
               <div 
                 key={idx}
-                className={`p-3 rounded-xl border text-xs flex items-start gap-3 transition-all ${
+                className={`p-3.5 rounded-xl border text-xs flex items-start gap-3 transition-all ${
                   gap.status === 'matched'
-                    ? 'bg-emerald-950/15 border-emerald-900/30 text-emerald-200'
-                    : 'bg-amber-950/15 border-amber-900/30 text-amber-200'
+                    ? 'bg-[#00F5A0]/5 border-[#00F5A0]/20 text-slate-200'
+                    : 'bg-[#FFA133]/5 border-[#FFA133]/20 text-slate-200'
                 }`}
               >
                 <div className="mt-0.5 shrink-0">
                   {gap.status === 'matched' ? (
-                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                    <CheckCircle2 className="h-4 w-4 text-[#00F5A0]" />
                   ) : (
-                    <AlertTriangle className="h-4 w-4 text-amber-400" />
+                    <AlertTriangle className="h-4 w-4 text-[#FFA133]" />
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-0.5">
-                    <span className="font-bold text-white truncate">{gap.skill}</span>
-                    <span className={`px-2 py-0.2 rounded text-[9px] uppercase font-bold tracking-wider ${
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="font-bold text-white truncate font-display">{gap.skill}</span>
+                    <span className={`px-2 py-0.5 rounded text-[9px] uppercase font-mono font-bold tracking-wider ${
                       gap.importance === 'must_have' 
-                        ? 'bg-rose-950/80 text-rose-300 border border-rose-800/60' 
-                        : 'bg-slate-800 text-slate-300 border border-slate-700'
+                        ? 'bg-[#FF2E63]/20 text-[#FF2E63] border border-[#FF2E63]/40' 
+                        : 'bg-white/[0.08] text-slate-300 border border-white/[0.1]'
                     }`}>
                       {gap.importance === 'must_have' ? 'Critical Requisite' : 'Preferred'}
                     </span>

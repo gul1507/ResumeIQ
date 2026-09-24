@@ -9,33 +9,34 @@ import {
   Briefcase, 
   ShieldCheck,
   CheckCircle2,
-  Zap
+  Zap,
+  Cpu
 } from 'lucide-react';
 
-const ROLES: { value: UserRole; icon: React.ElementType; label: string; desc: string; badge: string; color: string }[] = [
+const ROLES: { value: UserRole; icon: React.ElementType; label: string; desc: string; badge: string; hex: string }[] = [
   {
     value: 'candidate',
     icon: FileText,
     label: 'Candidate',
     desc: 'Resume diagnostics, ATS scoring & AI tailoring',
-    badge: 'Most Popular',
-    color: 'indigo',
+    badge: 'Popular',
+    hex: '#FF5C00',
   },
   {
     value: 'recruiter',
     icon: Briefcase,
     label: 'Recruiter',
-    desc: 'Post jobs, rank applicants & send feedback',
-    badge: 'Hiring Manager',
-    color: 'teal',
+    desc: 'Post requisitions, rank talent & send feedback',
+    badge: 'Hiring Lead',
+    hex: '#00C9FF',
   },
   {
     value: 'admin',
     icon: ShieldCheck,
     label: 'Admin',
     desc: 'Audit logs, bias compliance & governance',
-    badge: 'HR Compliance',
-    color: 'violet',
+    badge: 'Compliance',
+    hex: '#00F5A0',
   },
 ];
 
@@ -66,23 +67,26 @@ export const RegisterPage: React.FC = () => {
 
   return (
     <div className="min-h-[90vh] flex items-center justify-center px-4 py-12 relative">
-      {/* Background glows */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-indigo-500/8 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-teal-500/6 rounded-full blur-3xl pointer-events-none" />
+      {/* Background ambient flares */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-[#FF5C00]/8 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-[#00C9FF]/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="w-full max-w-lg relative z-10 animate-fade-in-up">
         {/* Header */}
         <div className="text-center mb-8 space-y-3">
-          <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-500/12 text-indigo-400 border border-indigo-500/30 shadow-glow-indigo mx-auto">
-            <Sparkles className="h-6 w-6 stroke-[2.2]" />
+          <div className="relative inline-flex">
+            <div className="absolute inset-0 rounded-2xl bg-[#FF5C00]/25 blur-xl animate-glow-pulse" />
+            <div className="relative h-14 w-14 items-center justify-center rounded-2xl bg-[#FF5C00]/15 text-[#FF5C00] border border-[#FF5C00]/40 inline-flex shadow-[0_0_20px_rgba(255,92,0,0.3)]">
+              <Cpu className="h-7 w-7" />
+            </div>
           </div>
           <div>
-            <h1 className="font-display text-2xl font-extrabold text-white tracking-tight">Create Your Account</h1>
-            <p className="text-xs text-slate-400 mt-1">Choose your role to get started in seconds</p>
+            <h1 className="font-display text-2xl font-extrabold text-white tracking-tight">Create Workspace Account</h1>
+            <p className="text-xs text-slate-400 mt-1 font-sans">Select your operational persona to initialize permissions</p>
           </div>
         </div>
 
-        <div className="bg-obsidian-900 border border-white/[0.10] rounded-2xl p-6 shadow-card-lift space-y-6">
+        <div className="bg-[#0B1019]/90 border border-white/[0.10] rounded-2xl p-6 shadow-[0_20px_50px_rgba(0,0,0,0.8)] space-y-6 backdrop-blur-xl">
 
           {/* Error */}
           {error && (
@@ -96,132 +100,118 @@ export const RegisterPage: React.FC = () => {
 
           {/* Role Picker */}
           <div className="space-y-2">
-            <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 block">
-              Select Your Role
+            <label className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400 block">
+              Select Your Role Persona
             </label>
             <div className="grid grid-cols-3 gap-2">
-              {ROLES.map(({ value, icon: Icon, label, desc, badge, color }) => (
+              {ROLES.map(({ value, icon: Icon, label, desc, hex }) => (
                 <button
                   key={value}
                   type="button"
                   onClick={() => setRole(value)}
                   className={`relative flex flex-col items-center gap-2 p-3.5 rounded-xl border text-center transition-all duration-200 ${
                     role === value
-                      ? `bg-${color}-500/15 border-${color}-500/50 shadow-glow-indigo`
-                      : 'bg-obsidian-950 border-white/[0.07] hover:border-white/[0.14] hover:bg-obsidian-850'
+                      ? 'border-white/30 shadow-md'
+                      : 'bg-[#05070B] border-white/[0.07] hover:border-white/[0.16] hover:bg-[#0F1623]'
                   }`}
+                  style={role === value ? { backgroundColor: `${hex}15`, borderColor: hex } : {}}
                 >
                   {role === value && (
-                    <div className="absolute -top-1.5 -right-1.5 h-4 w-4 rounded-full bg-indigo-500 flex items-center justify-center">
+                    <div 
+                      className="absolute -top-1.5 -right-1.5 h-4 w-4 rounded-full flex items-center justify-center shadow-sm"
+                      style={{ backgroundColor: hex }}
+                    >
                       <CheckCircle2 className="h-3 w-3 text-white stroke-[2.5]" />
                     </div>
                   )}
-                  <div className={`h-9 w-9 rounded-xl flex items-center justify-center ${
-                    role === value
-                      ? `bg-${color}-500/25 text-${color}-300 border border-${color}-500/30`
-                      : 'bg-obsidian-900 text-slate-400 border border-white/[0.07]'
-                  }`}>
+                  <div 
+                    className="h-9 w-9 rounded-xl flex items-center justify-center border"
+                    style={{ 
+                      backgroundColor: role === value ? `${hex}25` : '#0B1019',
+                      borderColor: role === value ? `${hex}40` : 'rgba(255,255,255,0.08)',
+                      color: role === value ? hex : '#94A3B8'
+                    }}
+                  >
                     <Icon className="h-4 w-4" />
                   </div>
                   <div>
-                    <div className={`text-[11px] font-bold ${role === value ? `text-${color}-200` : 'text-white'}`}>
+                    <div className="text-[11px] font-bold font-display text-white">
                       {label}
                     </div>
-                    <div className={`text-[10px] mt-0.5 leading-tight ${role === value ? `text-${color}-300/70` : 'text-slate-500'}`}>
+                    <div className="text-[10px] mt-0.5 leading-tight text-slate-400 font-sans">
                       {desc}
                     </div>
                   </div>
                 </button>
               ))}
             </div>
-
-            {/* Role description bar */}
-            <div className={`flex items-center gap-2 p-2.5 rounded-xl bg-${selectedRole.color}-500/8 border border-${selectedRole.color}-500/15 text-xs`}>
-              <Zap className={`h-3.5 w-3.5 text-${selectedRole.color}-400 shrink-0`} />
-              <span className={`text-${selectedRole.color}-300/80 font-medium`}>
-                <span className="font-bold text-white">{selectedRole.label}</span>: {selectedRole.desc}
-              </span>
-            </div>
           </div>
 
-          {/* Form Fields */}
           <form onSubmit={handleSubmit} className="space-y-4 text-xs">
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="text-slate-300 font-semibold block mb-1">Full Name</label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                  placeholder="Alex Rivera"
-                  className="w-full bg-obsidian-950 border border-white/[0.10] rounded-xl p-3 text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/70 focus:ring-1 focus:ring-indigo-500/20 transition-all"
-                />
-              </div>
-              <div>
-                <label className="text-slate-300 font-semibold block mb-1">Email</label>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  placeholder="alex@company.com"
-                  className="w-full bg-obsidian-950 border border-white/[0.10] rounded-xl p-3 text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/70 focus:ring-1 focus:ring-indigo-500/20 transition-all"
-                />
-              </div>
+            <div>
+              <label className="text-slate-300 font-semibold block mb-1 font-mono text-[11px]">Full Name</label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Alex Morgan"
+                className="w-full bg-[#05070B] border border-white/[0.10] rounded-xl p-3 text-white placeholder-slate-600 focus:outline-none focus:border-[#FF5C00] focus:ring-1 focus:ring-[#FF5C00]/30 transition-all font-sans"
+              />
             </div>
 
             <div>
-              <label className="text-slate-300 font-semibold block mb-1">Password</label>
+              <label className="text-slate-300 font-semibold block mb-1 font-mono text-[11px]">Email Address</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                placeholder="you@company.com"
+                className="w-full bg-[#05070B] border border-white/[0.10] rounded-xl p-3 text-white placeholder-slate-600 focus:outline-none focus:border-[#FF5C00] focus:ring-1 focus:ring-[#FF5C00]/30 transition-all font-sans"
+              />
+            </div>
+
+            <div>
+              <label className="text-slate-300 font-semibold block mb-1 font-mono text-[11px]">Password</label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                placeholder="Choose a strong password"
-                className="w-full bg-obsidian-950 border border-white/[0.10] rounded-xl p-3 text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500/70 focus:ring-1 focus:ring-indigo-500/20 transition-all"
+                placeholder="Min 6 characters..."
+                className="w-full bg-[#05070B] border border-white/[0.10] rounded-xl p-3 text-white placeholder-slate-600 focus:outline-none focus:border-[#FF5C00] focus:ring-1 focus:ring-[#FF5C00]/30 transition-all font-sans"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 btn-primary-glow text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow-md transition-all flex items-center justify-center gap-2 active:scale-[0.98] group"
+              className="w-full py-4 btn-primary-glow text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow-[0_10px_30px_rgba(255,92,0,0.35)] transition-all flex items-center justify-center gap-2 active:scale-[0.98] group"
             >
               {loading ? (
                 <span className="flex items-center gap-2">
                   <span className="h-3.5 w-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Creating account...
+                  Creating Account...
                 </span>
               ) : (
                 <>
-                  <Sparkles className="h-4 w-4 text-indigo-200" />
-                  <span>Create {selectedRole.label} Account</span>
+                  <Sparkles className="h-4 w-4 text-white" />
+                  <span>Register as {selectedRole.label}</span>
                   <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
                 </>
               )}
             </button>
           </form>
 
-          {/* Footer */}
-          <div className="text-center border-t border-white/[0.07] pt-4">
-            <p className="text-xs text-slate-500">
+          {/* Sign In link */}
+          <div className="text-center border-t border-white/[0.08] pt-4">
+            <p className="text-xs text-slate-400 font-sans">
               Already have an account?{' '}
-              <Link to="/login" className="text-indigo-400 hover:text-indigo-300 hover:underline font-semibold transition-colors">
-                Sign in
+              <Link to="/login" className="text-[#FF5C00] hover:text-[#FFA133] hover:underline font-semibold transition-colors">
+                Sign in here
               </Link>
             </p>
           </div>
-        </div>
-
-        {/* Trust signals */}
-        <div className="flex items-center justify-center gap-4 mt-5 text-[11px] text-slate-600">
-          {['No credit card required', 'Free forever tier', 'Instant access'].map((t) => (
-            <span key={t} className="flex items-center gap-1">
-              <CheckCircle2 className="h-3 w-3 text-emerald-500/60" />
-              {t}
-            </span>
-          ))}
         </div>
       </div>
     </div>

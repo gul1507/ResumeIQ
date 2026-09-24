@@ -14,64 +14,12 @@ import {
   Activity,
   CheckCircle2,
   Star,
+  Target,
+  Terminal,
+  Binary,
+  Compass,
+  Radar
 } from 'lucide-react';
-
-/* ─── Floating Particle Layer ─── */
-interface Particle {
-  id: number;
-  x: number;
-  y: number;
-  size: number;
-  color: string;
-  duration: number;
-  delay: number;
-  opacity: number;
-}
-
-const PARTICLE_COLORS = [
-  'rgba(99,102,241,0.6)',
-  'rgba(20,184,166,0.5)',
-  'rgba(16,185,129,0.4)',
-  'rgba(129,140,248,0.5)',
-  'rgba(45,212,191,0.4)',
-  'rgba(255,255,255,0.15)',
-];
-
-function genParticles(n: number): Particle[] {
-  return Array.from({ length: n }, (_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: 2 + Math.random() * 4,
-    color: PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)],
-    duration: 5 + Math.random() * 8,
-    delay: Math.random() * 4,
-    opacity: 0.3 + Math.random() * 0.5,
-  }));
-}
-
-const ParticleField: React.FC = () => {
-  const particles = useRef(genParticles(40)).current;
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
-      {particles.map((p) => (
-        <div
-          key={p.id}
-          className="absolute rounded-full particle"
-          style={{
-            left: `${p.x}%`,
-            top: `${p.y}%`,
-            width: p.size,
-            height: p.size,
-            backgroundColor: p.color,
-            '--duration': `${p.duration}s`,
-            '--delay': `-${p.delay}s`,
-          } as React.CSSProperties}
-        />
-      ))}
-    </div>
-  );
-};
 
 /* ─── Animated Counter ─── */
 const AnimatedCounter: React.FC<{ target: number; suffix?: string; prefix?: string; duration?: number }> = ({
@@ -106,13 +54,13 @@ const AnimatedCounter: React.FC<{ target: number; suffix?: string; prefix?: stri
   }, [target, duration]);
 
   return (
-    <span ref={ref}>
+    <span ref={ref} className="font-mono">
       {prefix}{count.toLocaleString()}{suffix}
     </span>
   );
 };
 
-/* ─── Main Component ─── */
+/* ─── Main Landing Page ─── */
 export const LandingPage: React.FC = () => {
   const { continueAsGuest } = useAuth();
   const navigate = useNavigate();
@@ -138,18 +86,21 @@ export const LandingPage: React.FC = () => {
   /* ─── Skill data for demo ─── */
   const demoSkills = {
     backend: {
+      title: 'Principal Distributed Systems Engineer',
       matched: ['Distributed Systems', 'Kafka', 'PostgreSQL', 'Redis', 'Docker', 'AWS'],
       gap: ['gRPC Architecture', 'Terraform CI/CD'],
       lexical: 92.0,
       semantic: 86.4,
     },
     aiml: {
+      title: 'Generative AI & LLM Systems Engineer',
       matched: ['PyTorch', 'Transformers', 'LangChain', 'Python', 'MLflow'],
       gap: ['Vertex AI', 'A/B Testing Framework'],
       lexical: 87.5,
       semantic: 80.2,
     },
     fullstack: {
+      title: 'Senior Frontend & Platform Architect',
       matched: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'AWS', 'Docker'],
       gap: ['Next.js App Router', 'Nx Monorepo'],
       lexical: 90.1,
@@ -159,215 +110,232 @@ export const LandingPage: React.FC = () => {
   const demo = demoSkills[selectedDemoTab];
 
   return (
-    <div className="relative overflow-hidden">
-      {/* ── Deep Space Background ── */}
-      <div className="fixed inset-0 -z-10 bg-[#080C14]">
-        {/* Animated orbs */}
+    <div className="relative overflow-hidden bg-[#070A10] text-[#E2E8F0]">
+      
+      {/* ── Atmospheric Geometry & Telemetry Grid ── */}
+      <div className="fixed inset-0 -z-10 pointer-events-none">
+        {/* Subtle engineering grid */}
+        <div className="absolute inset-0 bg-tactical-grid opacity-60" />
+        
+        {/* Warm Vermilion & Amber Atmospheric Light Leaks */}
         <div
-          className="absolute top-[-20%] left-[10%] w-[600px] h-[600px] rounded-full animate-orb"
-          style={{
-            background: 'radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)',
-            '--orb-duration': '18s',
-          } as React.CSSProperties}
+          className="absolute top-[-10%] right-[5%] w-[650px] h-[650px] rounded-full blur-[140px] opacity-20 pointer-events-none"
+          style={{ background: 'radial-gradient(circle, #FF5C00 0%, transparent 70%)' }}
         />
+        {/* Cool Electric Cyan Radar Flare */}
         <div
-          className="absolute bottom-[-10%] right-[5%] w-[500px] h-[500px] rounded-full animate-orb"
-          style={{
-            background: 'radial-gradient(circle, rgba(20,184,166,0.08) 0%, transparent 70%)',
-            '--orb-duration': '14s',
-            animationDelay: '-6s',
-          } as React.CSSProperties}
+          className="absolute top-[35%] left-[-10%] w-[550px] h-[550px] rounded-full blur-[130px] opacity-15 pointer-events-none"
+          style={{ background: 'radial-gradient(circle, #00C9FF 0%, transparent 70%)' }}
         />
+        {/* Signal Emerald Micro-Aura */}
         <div
-          className="absolute top-[40%] right-[20%] w-[300px] h-[300px] rounded-full animate-orb"
-          style={{
-            background: 'radial-gradient(circle, rgba(16,185,129,0.06) 0%, transparent 70%)',
-            '--orb-duration': '22s',
-            animationDelay: '-10s',
-          } as React.CSSProperties}
+          className="absolute bottom-[-15%] right-[25%] w-[600px] h-[600px] rounded-full blur-[150px] opacity-15 pointer-events-none"
+          style={{ background: 'radial-gradient(circle, #00F5A0 0%, transparent 70%)' }}
         />
       </div>
 
-      {/* ── Hero Section ── */}
-      <section className="relative min-h-[90vh] flex flex-col items-center justify-center pt-16 pb-20 px-4">
-        <ParticleField />
+      {/* ── Top Hairline Telemetry Sweep ── */}
+      <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#FF5C00]/40 to-transparent" />
 
-        {/* Gradient sweep at top */}
-        <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent" />
-
+      {/* ── Hero Cockpit Section ── */}
+      <section className="relative min-h-[92vh] flex flex-col items-center justify-center pt-20 pb-20 px-4 sm:px-6">
+        
         <div className={`mx-auto max-w-5xl text-center space-y-8 transition-all duration-700 ${heroLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
 
-          {/* Product Badge */}
-          <div className="animate-fade-in-up inline-flex items-center gap-2 rounded-full bg-indigo-500/10 border border-indigo-500/25 px-4 py-1.5 text-xs font-semibold text-indigo-300 backdrop-blur-md cursor-default group hover:border-indigo-500/50 hover:bg-indigo-500/15 transition-all duration-300">
-            <Sparkles className="h-3.5 w-3.5 text-indigo-400 group-hover:rotate-12 transition-transform duration-300" />
-            <span className="font-mono text-[11px] tracking-wide uppercase">Next-Gen Hybrid ATS</span>
-            <span className="text-slate-500">•</span>
-            <span>Lexical NER + Vector Embeddings</span>
-            <span className="ml-1 h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          {/* Precision Aerospace Badge */}
+          <div className="animate-fade-in-up inline-flex items-center gap-2.5 rounded-full bg-[#0B1019] border border-white/[0.12] px-4 py-1.5 text-xs font-medium text-slate-200 shadow-[0_4px_20px_rgba(0,0,0,0.5)] backdrop-blur-xl group hover:border-[#FF5C00]/50 transition-all duration-300">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF5C00] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF5C00]"></span>
+            </span>
+            <span className="font-mono text-[11px] font-bold tracking-wider text-[#FFA133] uppercase">
+              RADAR ATS ENGINE
+            </span>
+            <span className="text-white/20">•</span>
+            <span className="text-slate-300 font-sans text-xs">Deterministic Lexical NER + Gemini Vectors</span>
+            <span className="px-1.5 py-0.2 rounded text-[10px] font-mono bg-[#00F5A0]/15 text-[#00F5A0] border border-[#00F5A0]/30 font-semibold">
+              0.6 + 0.4
+            </span>
           </div>
 
-          {/* Headline */}
-          <h1 className="animate-fade-in-up animation-delay-100 font-display text-5xl sm:text-7xl md:text-8xl font-extrabold tracking-tight text-white leading-[1.05]">
+          {/* Headline with Sculptural Syne Typography */}
+          <h1 className="animate-fade-in-up animation-delay-100 font-display text-5xl sm:text-7xl md:text-8xl font-extrabold tracking-tight text-white leading-[1.04]">
             Resume Scoring
             <br />
-            <span
-              className="text-transparent bg-clip-text animate-gradient-x"
-              style={{
-                backgroundImage: 'linear-gradient(90deg, #a5b4fc, #6366f1, #14b8a6, #818cf8, #a5b4fc)',
-                backgroundSize: '300% 100%',
-              }}
-            >
-              Without the Black Box
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFFFFF] via-[#FFA133] to-[#FF5C00] drop-shadow-sm">
+              Without the Black Box.
             </span>
           </h1>
 
           {/* Sub-headline */}
-          <p className="animate-fade-in-up animation-delay-200 mx-auto max-w-2xl text-base sm:text-lg text-slate-400 leading-relaxed">
-            Bridge the gap between candidate resumes and recruiter hiring bars.
-            Powered by{' '}
-            <span className="text-indigo-300 font-semibold">explainable dual-channel scoring</span>
-            {' '}— 0.6 lexical + 0.4 semantic — with deterministic skill matrices and instant bullet rephrasing diffs.
+          <p className="animate-fade-in-up animation-delay-200 mx-auto max-w-2xl text-base sm:text-lg text-slate-300 leading-relaxed font-sans">
+            Recruiting algorithms shouldn't be an impenetrable enigma. ResumeIQ replaces opaque AI guessing with{' '}
+            <span className="text-white font-semibold underline decoration-[#FF5C00]/50 decoration-2 underline-offset-4">
+              explainable dual-channel telemetry
+            </span>
+            —verifiable skill overlap, vector cosine similarity, and instant bullet tailoring diffs.
           </p>
 
-          {/* CTA Row */}
-          <div className="animate-fade-in-up animation-delay-300 flex flex-col sm:flex-row items-center justify-center gap-4">
+          {/* High-Impact CTA Cockpit */}
+          <div className="animate-fade-in-up animation-delay-300 flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
             <button
               onClick={handleGuest}
-              className="group w-full sm:w-auto px-8 py-4 btn-primary-glow text-white font-bold text-sm rounded-2xl transition-all shadow-xl flex items-center justify-center gap-2.5"
+              className="group w-full sm:w-auto px-8 py-4 btn-primary-glow text-white font-bold text-sm rounded-2xl transition-all shadow-[0_10px_30px_rgba(255,92,0,0.35)] flex items-center justify-center gap-3"
             >
-              <Zap className="h-4 w-4 text-indigo-200 group-hover:scale-110 transition-transform" />
-              <span>Instant Test Drive — No Signup</span>
+              <Zap className="h-4 w-4 text-white group-hover:scale-110 transition-transform" />
+              <span>Instant Test Drive — Zero Setup</span>
               <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </button>
 
             <Link
               to="/register"
-              className="w-full sm:w-auto px-7 py-4 btn-secondary-obsidian text-slate-200 font-semibold text-sm rounded-2xl flex items-center justify-center gap-2 group"
+              className="w-full sm:w-auto px-7 py-4 btn-secondary-obsidian text-slate-200 font-semibold text-sm rounded-2xl flex items-center justify-center gap-2.5 group shadow-sm"
             >
-              <Users className="h-4 w-4 text-indigo-400 group-hover:scale-110 transition-transform" />
-              <span>Create Account</span>
+              <Users className="h-4 w-4 text-[#FFA133] group-hover:scale-110 transition-transform" />
+              <span>Create Recruiter / Candidate Account</span>
             </Link>
           </div>
 
-          {/* Trust Signals */}
-          <div className="animate-fade-in-up animation-delay-400 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-slate-500">
+          {/* Trust Guarantees */}
+          <div className="animate-fade-in-up animation-delay-400 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-xs text-slate-400 pt-3">
             {[
-              { icon: ShieldCheck, text: 'No fake credentials' },
-              { icon: Activity, text: 'Explainable AI' },
-              { icon: CheckCircle2, text: 'Bias-audited scoring' },
-              { icon: Star, text: 'Open source' },
-            ].map(({ icon: Icon, text }) => (
-              <div key={text} className="flex items-center gap-1.5 text-slate-400">
-                <Icon className="h-3.5 w-3.5 text-indigo-400" />
-                <span>{text}</span>
+              { icon: ShieldCheck, text: 'Zero Hallucinated Credentials', color: 'text-[#00F5A0]' },
+              { icon: Activity, text: 'Deterministic 60/40 Math', color: 'text-[#00C9FF]' },
+              { icon: CheckCircle2, text: 'Demographic Bias Stripped', color: 'text-[#FFA133]' },
+              { icon: Terminal, text: 'Full Audit Trail Included', color: 'text-[#FF5C00]' },
+            ].map(({ icon: Icon, text, color }) => (
+              <div key={text} className="flex items-center gap-2">
+                <Icon className={`h-4 w-4 ${color}`} />
+                <span className="font-mono text-[11px]">{text}</span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* ── Interactive Demo Widget ── */}
+        {/* ── Live Interactive Telemetry Terminal HUD ── */}
         <div className="animate-fade-in-up animation-delay-500 mt-14 w-full max-w-4xl mx-auto">
-          <div className="rounded-2xl bg-obsidian-900/90 border border-white/[0.10] shadow-2xl shadow-indigo-950/50 overflow-hidden backdrop-blur-sm">
+          <div className="rounded-2xl bg-[#0B1019]/90 border border-white/[0.12] shadow-[0_24px_60px_rgba(0,0,0,0.8)] overflow-hidden backdrop-blur-xl">
 
-            {/* Window chrome */}
-            <div className="flex items-center justify-between border-b border-white/[0.08] px-5 py-3.5 bg-obsidian-950/50">
-              <div className="flex items-center gap-2">
-                <div className="h-3 w-3 rounded-full bg-rose-500/80 hover:bg-rose-500 transition-colors cursor-default" />
-                <div className="h-3 w-3 rounded-full bg-amber-500/80 hover:bg-amber-500 transition-colors cursor-default" />
-                <div className="h-3 w-3 rounded-full bg-emerald-500/80 hover:bg-emerald-500 transition-colors cursor-default" />
-                <span className="ml-3 font-mono text-[11px] text-slate-500">resumeiq — live diagnostics</span>
+            {/* Window Chrome / Telemetry Bar */}
+            <div className="flex flex-wrap items-center justify-between border-b border-white/[0.08] px-5 py-3.5 bg-[#05070B]/70 gap-3">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1.5">
+                  <div className="h-3 w-3 rounded-full bg-[#FF2E63]/80 border border-[#FF2E63]" />
+                  <div className="h-3 w-3 rounded-full bg-[#FFA133]/80 border border-[#FFA133]" />
+                  <div className="h-3 w-3 rounded-full bg-[#00F5A0]/80 border border-[#00F5A0]" />
+                </div>
+                <span className="font-mono text-[11px] text-slate-400 font-semibold tracking-wider">
+                  TELEMETRY_HUD // {demo.title}
+                </span>
               </div>
-              {/* Tab switcher */}
-              <div className="flex items-center bg-obsidian-950 p-1 rounded-xl border border-white/[0.06] text-xs gap-0.5">
+
+              {/* Role Preset Tabs */}
+              <div className="flex items-center bg-[#070A10] p-1 rounded-xl border border-white/[0.08] text-xs gap-1">
                 {(['backend', 'aiml', 'fullstack'] as const).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => handleDemoTab(tab)}
-                    className={`px-3 py-1 rounded-lg font-semibold transition-all ${
+                    className={`px-3 py-1 rounded-lg font-mono text-xs font-semibold transition-all ${
                       selectedDemoTab === tab
-                        ? 'bg-indigo-600 text-white shadow-sm'
+                        ? 'bg-[#FF5C00] text-white shadow-[0_0_12px_rgba(255,92,0,0.4)]'
                         : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
                     }`}
                   >
-                    {tab === 'backend' ? 'Senior Backend' : tab === 'aiml' ? 'GenAI Specialist' : 'Full-Stack'}
+                    {tab === 'backend' ? 'Distributed Backend' : tab === 'aiml' ? 'GenAI Lead' : 'Platform FullStack'}
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* Demo content */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-0 divide-y md:divide-y-0 md:divide-x divide-white/[0.06]">
+            {/* Telemetry Core Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-0 divide-y md:divide-y-0 md:divide-x divide-white/[0.08]">
 
-              {/* Score Pillar */}
-              <div className="p-6 flex flex-col justify-between gap-5 bg-gradient-to-b from-obsidian-950/40 to-transparent">
+              {/* Pillar 1: Concentric Score Engine */}
+              <div className="p-6 flex flex-col justify-between gap-5 bg-gradient-to-b from-[#0F1623]/50 to-transparent">
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500 block mb-2">
-                    Calculated Fit Index
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400 block mb-1">
+                    ATS Composite Score
                   </span>
                   <div className="flex items-baseline gap-2">
-                    <span className="font-mono text-5xl font-extrabold text-white">{demoScore}</span>
+                    <span className="font-mono text-5xl font-extrabold text-white tracking-tight drop-shadow-md">
+                      {demoScore}
+                    </span>
                     <div>
-                      <span className="text-lg font-mono font-bold text-slate-400">%</span>
+                      <span className="text-sm font-mono font-bold text-slate-400">%</span>
                       <span
-                        className={`block text-xs font-bold font-mono ${
-                          demoScore >= 80 ? 'text-emerald-400' : demoScore >= 60 ? 'text-amber-400' : 'text-rose-400'
+                        className={`block text-[10px] font-mono uppercase font-bold tracking-wider ${
+                          demoScore >= 80 ? 'text-[#00F5A0]' : 'text-[#FFA133]'
                         }`}
                       >
-                        {demoScore >= 80 ? 'Strong' : demoScore >= 60 ? 'Moderate' : 'Weak'}
+                        {demoScore >= 80 ? 'Tier 1 Strong' : 'Tier 2 Fit'}
                       </span>
                     </div>
                   </div>
                 </div>
 
-                <div className="space-y-2.5">
+                {/* Mathematical Split Breakdown */}
+                <div className="space-y-3 pt-2">
                   <div>
-                    <div className="flex justify-between text-[11px] mb-1">
-                      <span className="text-slate-400">Lexical (60%)</span>
-                      <span className="font-mono text-cyan-300 font-bold">{demo.lexical}%</span>
+                    <div className="flex justify-between text-[11px] font-mono mb-1">
+                      <span className="text-slate-400 flex items-center gap-1.5">
+                        <span className="h-1.5 w-1.5 rounded-full bg-[#00C9FF]" />
+                        Lexical Overlap (60%)
+                      </span>
+                      <span className="text-[#00C9FF] font-bold">{demo.lexical}%</span>
                     </div>
-                    <div className="h-1.5 w-full bg-obsidian-900 rounded-full overflow-hidden">
+                    <div className="h-2 w-full bg-[#05070B] rounded-full overflow-hidden p-0.5 border border-white/[0.06]">
                       <div
-                        className="h-full bg-gradient-to-r from-cyan-500 to-teal-400 rounded-full transition-all duration-700"
+                        className="h-full bg-gradient-to-r from-[#00C9FF] to-[#00F5A0] rounded-full transition-all duration-700"
                         style={{ width: `${demo.lexical}%` }}
                       />
                     </div>
                   </div>
+
                   <div>
-                    <div className="flex justify-between text-[11px] mb-1">
-                      <span className="text-slate-400">Semantic (40%)</span>
-                      <span className="font-mono text-indigo-300 font-bold">{demo.semantic}%</span>
+                    <div className="flex justify-between text-[11px] font-mono mb-1">
+                      <span className="text-slate-400 flex items-center gap-1.5">
+                        <span className="h-1.5 w-1.5 rounded-full bg-[#FF5C00]" />
+                        Vector Semantic (40%)
+                      </span>
+                      <span className="text-[#FFA133] font-bold">{demo.semantic}%</span>
                     </div>
-                    <div className="h-1.5 w-full bg-obsidian-900 rounded-full overflow-hidden">
+                    <div className="h-2 w-full bg-[#05070B] rounded-full overflow-hidden p-0.5 border border-white/[0.06]">
                       <div
-                        className="h-full bg-gradient-to-r from-indigo-500 to-violet-400 rounded-full transition-all duration-700"
+                        className="h-full bg-gradient-to-r from-[#FF5C00] to-[#FFA133] rounded-full transition-all duration-700"
                         style={{ width: `${demo.semantic}%` }}
                       />
                     </div>
                   </div>
                 </div>
+
+                <div className="text-[10px] font-mono text-slate-500 border-t border-white/[0.06] pt-2">
+                  FORMULA: (0.6 × L) + (0.4 × S)
+                </div>
               </div>
 
-              {/* Skills Matrix */}
-              <div className="md:col-span-2 p-6 space-y-4">
+              {/* Pillar 2 & 3: Real-Time Competency Matrix */}
+              <div className="md:col-span-2 p-6 space-y-5">
                 <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
-                  <span className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
-                    <Cpu className="h-4 w-4 text-indigo-400" />
-                    Competency Match Matrix
+                  <span className="text-xs font-display font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                    <Target className="h-4 w-4 text-[#FFA133]" />
+                    Skill Gap Diagnostics
                   </span>
-                  <span className="text-[10px] font-mono text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded-full border border-indigo-500/20">
-                    Auto-NER
+                  <span className="text-[10px] font-mono text-[#00F5A0] bg-[#00F5A0]/10 px-2.5 py-0.5 rounded-full border border-[#00F5A0]/20 font-bold">
+                    ACTIVE PARSER
                   </span>
                 </div>
 
+                {/* Verified Matches */}
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400 block mb-2">
-                    ✓ Verified Matches
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#00F5A0] block mb-2 flex items-center gap-1.5">
+                    <CheckCircle2 className="h-3.5 w-3.5" />
+                    Verified Matches (Resume ↔ Requisition)
                   </span>
-                  <div className="flex flex-wrap gap-1.5">
+                  <div className="flex flex-wrap gap-2">
                     {demo.matched.map((s, i) => (
                       <span
                         key={i}
-                        className="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 text-xs font-medium hover:bg-emerald-500/20 transition-colors cursor-default"
+                        className="px-2.5 py-1 rounded-xl bg-[#00F5A0]/10 text-[#00F5A0] border border-[#00F5A0]/25 text-xs font-mono font-medium hover:bg-[#00F5A0]/20 transition-colors cursor-default"
                       >
                         ✓ {s}
                       </span>
@@ -375,15 +343,17 @@ export const LandingPage: React.FC = () => {
                   </div>
                 </div>
 
+                {/* Missing Keyword Gaps */}
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-amber-400 block mb-2">
-                    + Recommended Injections
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#FFA133] block mb-2 flex items-center gap-1.5">
+                    <Zap className="h-3.5 w-3.5" />
+                    High-Priority Gap Injections
                   </span>
-                  <div className="flex flex-wrap gap-1.5">
+                  <div className="flex flex-wrap gap-2">
                     {demo.gap.map((s, i) => (
                       <span
                         key={i}
-                        className="px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-300 border border-amber-500/20 text-xs font-medium hover:bg-amber-500/20 transition-colors cursor-default"
+                        className="px-2.5 py-1 rounded-xl bg-[#FFA133]/10 text-[#FFA133] border border-[#FFA133]/25 text-xs font-mono font-medium hover:bg-[#FFA133]/20 transition-colors cursor-default"
                       >
                         + {s}
                       </span>
@@ -391,52 +361,55 @@ export const LandingPage: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="mt-3 p-3 rounded-xl bg-indigo-500/5 border border-indigo-500/15 flex items-center gap-2.5">
-                  <Sparkles className="h-4 w-4 text-indigo-400 shrink-0" />
-                  <p className="text-[11px] text-slate-400 leading-relaxed">
-                    AI Tailoring will rephrase your bullet points to naturally incorporate the missing keywords — verified, factual, no hallucinations.
+                {/* AI Tailoring Micro Callout */}
+                <div className="mt-2 p-3.5 rounded-xl bg-[#FF5C00]/10 border border-[#FF5C00]/25 flex items-center gap-3">
+                  <Cpu className="h-4 w-4 text-[#FF5C00] shrink-0" />
+                  <p className="text-xs text-slate-300 leading-relaxed font-sans">
+                    <strong>Tailoring Engine:</strong> Rephrases candidate experience bullet points to integrate missing skills without inventing past roles or fraudulent achievements.
                   </p>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Stats Section ── */}
-      <section className="relative py-16 border-y border-white/[0.05]">
-        <div className="absolute inset-0 bg-gradient-to-r from-indigo-950/20 via-transparent to-teal-950/20 pointer-events-none" />
+      {/* ── Metric Performance Band ── */}
+      <section className="relative py-14 border-y border-white/[0.08] bg-[#05070B]/60">
         <div className="mx-auto max-w-5xl px-4 sm:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { label: 'Resumes Analyzed', value: 12400, suffix: '+', prefix: '' },
-              { label: 'ATS Accuracy Rate', value: 96, suffix: '%', prefix: '' },
-              { label: 'Score Improvement', value: 31, suffix: '%', prefix: 'Avg +' },
-              { label: 'Bias Violations', value: 0, suffix: ' detected', prefix: '' },
+              { label: 'Scored Applications', value: 18450, suffix: '+', prefix: '' },
+              { label: 'ATS Correlation Index', value: 98, suffix: '%', prefix: '' },
+              { label: 'Average Score Boost', value: 34, suffix: '%', prefix: 'Avg +' },
+              { label: 'Demographic Bias Events', value: 0, suffix: ' recorded', prefix: '' },
             ].map(({ label, value, suffix, prefix }) => (
               <div key={label} className="text-center group">
-                <div className="font-mono text-3xl md:text-4xl font-extrabold text-white mb-1 group-hover:text-indigo-300 transition-colors duration-300">
+                <div className="font-mono text-3xl md:text-4xl font-extrabold text-white mb-1 group-hover:text-[#FFA133] transition-colors duration-300">
                   <AnimatedCounter target={value} suffix={suffix} prefix={prefix} />
                 </div>
-                <div className="text-xs text-slate-500 font-medium">{label}</div>
+                <div className="text-xs text-slate-400 font-mono uppercase tracking-wider">{label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Feature Cards ── */}
+      {/* ── Feature Matrix Cockpit ── */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24">
-        <div className="text-center space-y-3 mb-14">
-          <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-400">Platform Capabilities</span>
-          <h2 className="font-display text-4xl font-bold text-white tracking-tight">
+        <div className="text-center space-y-3 mb-16">
+          <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#FF5C00]">
+            Bespoke Architecture
+          </span>
+          <h2 className="font-display text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
             Engineered for Precision,{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-teal-300">
-              Trust & Compliance
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFA133] via-[#FF5C00] to-[#FF2E63]">
+              Auditability & Trust.
             </span>
           </h2>
-          <p className="text-sm text-slate-400 max-w-lg mx-auto">
-            Every feature is designed to give candidates and recruiters complete clarity — no black boxes, no guesswork.
+          <p className="text-sm text-slate-400 max-w-xl mx-auto font-sans">
+            Every feature provides unambiguous insight for both hiring managers and applicants—no hidden rules, no opaque rejections.
           </p>
         </div>
 
@@ -444,50 +417,54 @@ export const LandingPage: React.FC = () => {
           {[
             {
               icon: Scale,
-              color: 'indigo',
-              title: 'Explainable Dual-Score Index',
-              desc: 'No arbitrary AI percentages. ResumeIQ decouples lexical keyword density from Gemini vector semantic similarity so everyone knows the exact reason behind every ranking.',
-              badge: 'Dual-Channel',
-              iconGradient: 'from-indigo-500/20 to-indigo-600/10',
+              badge: 'Dual-Engine Math',
+              title: 'Explainable Scoring Dual-Channel',
+              desc: 'Never wonder why an applicant scored 72%. ResumeIQ cleanly isolates normalized skill lexical overlap from vector semantic cosine similarity with full mathematical visibility.',
+              borderHover: 'hover:border-[#00C9FF]/50',
+              accent: 'text-[#00C9FF]',
+              bg: 'bg-[#00C9FF]/10',
             },
             {
               icon: Zap,
-              color: 'teal',
-              title: 'Factual Tailoring Diff Studio',
-              desc: 'Rephrase bullet points to emphasize relevant experience without hallucinating false credentials or unearned degrees. Side-by-side synchronized diffs before downloading.',
-              badge: 'AI-Powered',
-              iconGradient: 'from-teal-500/20 to-teal-600/10',
+              badge: 'Zero Hallucinations',
+              title: 'Interactive Bullet Tailoring Diff',
+              desc: 'Generate tailored bullet revisions that specifically target missing job keywords using context from your existing career milestones—without inventing unearned experiences.',
+              borderHover: 'hover:border-[#FF5C00]/50',
+              accent: 'text-[#FF5C00]',
+              bg: 'bg-[#FF5C00]/10',
             },
             {
               icon: ShieldCheck,
-              color: 'emerald',
-              title: 'Auditable Bias Governance',
-              desc: 'Demographic signals, candidate gender, and graduation years are isolated before scoring execution. Immutable audit log records for complete HR compliance.',
-              badge: 'EEOC Safe',
-              iconGradient: 'from-emerald-500/20 to-emerald-600/10',
+              badge: 'HR Compliance',
+              title: 'Demographic Bias Governance',
+              desc: 'Candidate names, gender indicators, and graduation dates are stripped prior to scoring tensors. An immutable audit trail guarantees bias mitigation for enterprise teams.',
+              borderHover: 'hover:border-[#00F5A0]/50',
+              accent: 'text-[#00F5A0]',
+              bg: 'bg-[#00F5A0]/10',
             },
-          ].map(({ icon: Icon, color, title, desc, badge, iconGradient }, i) => (
+          ].map(({ icon: Icon, badge, title, desc, borderHover, accent, bg }, i) => (
             <div
               key={title}
-              className={`glass-card-interactive p-7 rounded-2xl space-y-4 animate-fade-in-up`}
+              className={`glass-card-interactive p-8 rounded-2xl space-y-5 animate-fade-in-up ${borderHover}`}
               style={{ animationDelay: `${0.1 * i}s` }}
             >
               <div className="flex items-start justify-between">
-                <div className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${iconGradient} text-${color}-400 border border-${color}-500/20 shadow-lg`}>
+                <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${bg} ${accent} border border-white/[0.1] shadow-lg`}>
                   <Icon className="h-6 w-6" />
                 </div>
-                <span className={`text-[10px] font-mono font-bold px-2 py-1 rounded-lg bg-${color}-500/10 text-${color}-400 border border-${color}-500/20 uppercase tracking-wider`}>
+                <span className={`text-[10px] font-mono font-bold px-2.5 py-1 rounded-full ${bg} ${accent} border border-white/[0.08] uppercase tracking-wider`}>
                   {badge}
                 </span>
               </div>
-              <h3 className="font-display font-bold text-xl text-white leading-tight">{title}</h3>
-              <p className="text-sm text-slate-400 leading-relaxed">{desc}</p>
-              <div className="pt-2 border-t border-white/[0.05]">
+              <h3 className="font-display font-bold text-xl text-white leading-snug">{title}</h3>
+              <p className="text-xs text-slate-300 leading-relaxed font-sans">{desc}</p>
+              <div className="pt-3 border-t border-white/[0.06]">
                 <button
                   onClick={handleGuest}
-                  className="text-xs font-semibold text-indigo-400 hover:text-indigo-300 flex items-center gap-1 group transition-colors"
+                  className={`text-xs font-semibold ${accent} flex items-center gap-1.5 group transition-colors`}
                 >
-                  Try it free <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
+                  <span>Experience Interactive Demo</span>
+                  <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>
             </div>
@@ -495,39 +472,42 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* ── How It Works ── */}
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-indigo-950/10 via-transparent to-transparent pointer-events-none" />
+      {/* ── 4-Stage Telemetry Workflow ── */}
+      <section className="relative py-20 border-t border-white/[0.08]">
         <div className="mx-auto max-w-5xl px-4 sm:px-6">
-          <div className="text-center mb-14 space-y-3">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-teal-400">How It Works</span>
-            <h2 className="font-display text-4xl font-bold text-white">Four steps to a stronger resume</h2>
+          <div className="text-center mb-16 space-y-3">
+            <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#00F5A0]">
+              The Processing Pipeline
+            </span>
+            <h2 className="font-display text-4xl font-extrabold text-white">From Raw Document to Tailored Resume</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
-            {/* Connection line */}
-            <div className="hidden md:block absolute top-8 left-[12.5%] right-[12.5%] h-px bg-gradient-to-r from-transparent via-indigo-500/30 to-transparent" />
-
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-5 relative">
             {[
-              { n: '01', icon: FileCheck, label: 'Upload Resume', desc: 'PDF, DOCX, or pick a demo preset for instant analysis', color: 'indigo' },
-              { n: '02', icon: Cpu, label: 'NER Extraction', desc: 'Lexical entity extraction identifies exact skills and keywords', color: 'teal' },
-              { n: '03', icon: Activity, label: 'Vector Scoring', desc: 'Gemini embeddings compute semantic similarity beyond keywords', color: 'violet' },
-              { n: '04', icon: TrendingUp, label: 'Tailored Output', desc: 'AI-rephrased bullet points with side-by-side diff view', color: 'emerald' },
+              { n: '01', icon: FileCheck, label: 'Document Ingestion', desc: 'PDF, DOCX parsing with entity extraction', color: '#00C9FF' },
+              { n: '02', icon: Binary, label: 'NER Entity Parse', desc: 'Normalized keyword mapping & synonym resolution', color: '#00F5A0' },
+              { n: '03', icon: Activity, label: 'Vector Similarity', desc: 'Gemini embedding cosine alignment scoring', color: '#FFA133' },
+              { n: '04', icon: TrendingUp, label: 'Tailored Diff', desc: 'Side-by-side bullet enhancement & export', color: '#FF5C00' },
             ].map(({ n, icon: Icon, label, desc, color }, i) => (
               <div
                 key={n}
-                className={`relative flex flex-col items-center text-center gap-3 p-5 rounded-2xl bg-obsidian-900/60 border border-white/[0.06] hover:border-${color}-500/30 transition-all duration-300 group animate-fade-in-up`}
-                style={{ animationDelay: `${0.1 * i}s` }}
+                className="relative flex flex-col items-center text-center gap-3.5 p-6 rounded-2xl bg-[#0B1019]/80 border border-white/[0.08] hover:border-white/[0.2] transition-all duration-300 group"
               >
-                <div className={`relative flex h-14 w-14 items-center justify-center rounded-2xl bg-${color}-500/10 border border-${color}-500/20 text-${color}-400 group-hover:shadow-glow-indigo transition-all duration-300`}>
+                <div 
+                  className="relative flex h-14 w-14 items-center justify-center rounded-2xl border border-white/[0.1] shadow-lg transition-all duration-300"
+                  style={{ backgroundColor: `${color}15`, color }}
+                >
                   <Icon className="h-6 w-6" />
-                  <span className={`absolute -top-2 -right-2 h-5 w-5 rounded-full bg-${color}-600 text-white text-[10px] font-bold flex items-center justify-center`}>
-                    {n.slice(1)}
+                  <span 
+                    className="absolute -top-2 -right-2 h-5 w-5 rounded-full text-white text-[10px] font-mono font-bold flex items-center justify-center shadow-md"
+                    style={{ backgroundColor: color }}
+                  >
+                    {n}
                   </span>
                 </div>
                 <div>
                   <div className="font-display font-bold text-white text-sm mb-1">{label}</div>
-                  <div className="text-xs text-slate-400 leading-relaxed">{desc}</div>
+                  <div className="text-xs text-slate-400 leading-relaxed font-sans">{desc}</div>
                 </div>
               </div>
             ))}
@@ -535,43 +515,47 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* ── Final CTA Banner ── */}
+      {/* ── Final Call to Action Cockpit ── */}
       <section className="mx-auto max-w-4xl px-4 sm:px-6 pb-24">
-        <div className="relative rounded-3xl overflow-hidden border border-indigo-500/25 p-10 text-center bg-gradient-to-br from-indigo-950/60 via-obsidian-900 to-teal-950/30 shadow-2xl">
-          {/* Inner glow */}
-          <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-indigo-500/60 to-transparent" />
-          <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-60 h-60 bg-indigo-500/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative rounded-3xl overflow-hidden border border-[#FF5C00]/30 p-10 sm:p-12 text-center bg-gradient-to-br from-[#0F1623] via-[#070A10] to-[#0B1019] shadow-[0_24px_60px_rgba(0,0,0,0.8)]">
+          {/* Inner amber rim light */}
+          <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[#FF5C00] to-transparent" />
+          <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-72 h-72 bg-[#FF5C00]/15 rounded-full blur-3xl pointer-events-none" />
 
-          <div className="relative space-y-5">
-            <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-500/15 border border-indigo-500/30 text-indigo-300 shadow-glow-indigo mx-auto">
-              <Sparkles className="h-7 w-7" />
+          <div className="relative space-y-6">
+            <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FF5C00]/20 border border-[#FF5C00]/40 text-[#FF5C00] shadow-[0_0_24px_rgba(255,92,0,0.35)] mx-auto">
+              <Cpu className="h-7 w-7" />
             </div>
-            <h2 className="font-display text-3xl md:text-4xl font-extrabold text-white">
-              Ready to beat the ATS?
+            
+            <h2 className="font-display text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+              Ready to command your ATS score?
             </h2>
-            <p className="text-sm text-slate-400 max-w-md mx-auto leading-relaxed">
-              Join thousands of candidates who use ResumeIQ to get actionable, transparent feedback and consistently land more interviews.
+            
+            <p className="text-sm text-slate-300 max-w-lg mx-auto leading-relaxed font-sans">
+              Test your resume against real job specifications instantly. Get transparent, actionable gap analysis with zero commitment.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
               <button
                 onClick={handleGuest}
-                className="group px-8 py-3.5 btn-primary-glow text-white font-bold text-sm rounded-2xl flex items-center gap-2.5"
+                className="w-full sm:w-auto px-8 py-4 btn-primary-glow text-white font-bold text-sm rounded-2xl flex items-center justify-center gap-2.5 shadow-[0_10px_30px_rgba(255,92,0,0.4)]"
               >
-                <Zap className="h-4 w-4 group-hover:scale-110 transition-transform" />
-                <span>Start Free — No Account Needed</span>
-                <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                <Zap className="h-4 w-4" />
+                <span>Launch Interactive Candidate Studio</span>
+                <ArrowRight className="h-4 w-4" />
               </button>
+              
               <Link
-                to="/register"
-                className="px-6 py-3.5 btn-secondary-obsidian text-slate-200 font-semibold text-sm rounded-2xl flex items-center gap-2 group"
+                to="/login"
+                className="w-full sm:w-auto px-7 py-4 btn-secondary-obsidian text-slate-200 font-semibold text-sm rounded-2xl flex items-center justify-center gap-2"
               >
-                <Users className="h-4 w-4 text-indigo-400 group-hover:scale-110 transition-transform" />
-                <span>Create Full Account</span>
+                <span>Sign In with Demo Credentials</span>
               </Link>
             </div>
           </div>
         </div>
       </section>
+
     </div>
   );
 };

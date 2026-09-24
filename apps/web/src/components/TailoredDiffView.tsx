@@ -5,11 +5,12 @@ import {
   ShieldCheck, 
   Sparkles, 
   Copy, 
-  FileText, 
   Check, 
   Columns, 
   Code,
-  ArrowRight
+  ArrowRight,
+  Cpu,
+  FileCheck
 } from 'lucide-react';
 
 interface DiffItem {
@@ -66,98 +67,29 @@ export const TailoredDiffView: React.FC<TailoredDiffViewProps> = ({
       <!DOCTYPE html>
       <html>
         <head>
-          <title>ResumeIQ_Tailored_Version_${versionNumber}.pdf</title>
+          <title>ResumeIQ_Tailored_Revision_${versionNumber}.pdf</title>
           <style>
-            @page {
-              size: letter;
-              margin: 0.8in;
-            }
+            @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
             body {
-              font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-              color: #0f172a;
-              line-height: 1.55;
-              margin: 0;
-              padding: 24px;
-              background: #ffffff;
-            }
-            .header {
-              border-bottom: 2px solid #4f46e5;
-              padding-bottom: 12px;
-              margin-bottom: 20px;
-            }
-            .name {
-              font-size: 22px;
-              font-weight: 700;
-              color: #1e1b4b;
-              letter-spacing: -0.5px;
-            }
-            .meta {
-              font-size: 12px;
-              color: #64748b;
-              margin-top: 4px;
-            }
-            .section-title {
-              font-size: 13px;
-              font-weight: 700;
-              color: #4f46e5;
-              text-transform: uppercase;
-              letter-spacing: 0.5px;
-              border-bottom: 1px solid #e2e8f0;
-              padding-bottom: 4px;
-              margin-top: 18px;
-              margin-bottom: 8px;
-            }
-            .pills {
-              display: flex;
-              flex-wrap: wrap;
-              gap: 6px;
-              margin-bottom: 14px;
-            }
-            .pill {
-              background: #eef2ff;
-              color: #4338ca;
-              border: 1px solid #c7d2fe;
-              padding: 3px 8px;
-              border-radius: 6px;
-              font-size: 11px;
-              font-weight: 600;
-            }
-            .content {
-              font-size: 12px;
-              color: #334155;
-              white-space: pre-wrap;
+              font-family: 'Outfit', sans-serif;
+              color: #1e293b;
+              padding: 40px;
+              max-width: 800px;
+              margin: 0 auto;
               line-height: 1.6;
+              font-size: 14px;
             }
-            .footer {
-              margin-top: 40px;
-              font-size: 10px;
-              color: #94a3b8;
-              text-align: center;
-              border-top: 1px solid #f1f5f9;
-              padding-top: 12px;
-            }
+            h1 { font-size: 24px; color: #0f172a; margin-bottom: 4px; border-bottom: 2px solid #FF5C00; padding-bottom: 8px; }
+            h2 { font-size: 16px; color: #334155; margin-top: 24px; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px; }
+            p { margin: 8px 0; }
+            ul { margin: 8px 0; padding-left: 20px; }
+            li { margin-bottom: 4px; }
+            .badge { display: inline-block; padding: 2px 8px; font-size: 11px; font-weight: bold; background: #FFF7ED; color: #C2410C; border: 1px solid #FDBA74; border-radius: 4px; margin-bottom: 16px; }
           </style>
         </head>
         <body>
-          <div class="header">
-            <div class="name">Optimized Professional Dossier (v${versionNumber})</div>
-            <div class="meta">Tailored via ResumeIQ Hybrid ATS Architecture • Ready for Recruiter Review</div>
-          </div>
-
-          ${matchedSkillsAdded.length > 0 ? `
-            <div class="section-title">Injected Target Competencies</div>
-            <div class="pills">
-              ${matchedSkillsAdded.map(s => `<span class="pill">+ ${s}</span>`).join('')}
-            </div>
-          ` : ''}
-
-          <div class="section-title">Verified Resume Structure</div>
-          <div class="content">${displayText}</div>
-
-          <div class="footer">
-            ResumeIQ ATS Optimization Engine — Factual Verification & Guardrails Compliant
-          </div>
-
+          <div class="badge">ResumeIQ • ATS Optimized Revision v${versionNumber}</div>
+          <pre style="white-space: pre-wrap; font-family: inherit;">${displayText}</pre>
           <script>
             window.onload = function() { window.print(); };
           </script>
@@ -170,17 +102,17 @@ export const TailoredDiffView: React.FC<TailoredDiffViewProps> = ({
   };
 
   return (
-    <div className="bg-obsidian-900 border border-white/[0.08] rounded-2xl p-6 shadow-card-lift space-y-6">
+    <div className="bg-[#0B1019]/80 border border-white/[0.08] rounded-2xl p-6 shadow-[0_16px_40px_rgba(0,0,0,0.7)] space-y-6">
       
       {/* Header Banner */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/[0.06] pb-5">
         <div>
           <div className="flex items-center gap-2.5">
-            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#00F5A0] shadow-[0_0_8px_#00F5A0] animate-pulse" />
             <h3 className="font-display text-lg font-bold text-white">
               Tailored Resume Studio (Revision v{versionNumber})
             </h3>
-            <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 text-[10px] font-mono font-bold">
+            <span className="px-2.5 py-0.5 rounded-full bg-[#00F5A0]/10 text-[#00F5A0] border border-[#00F5A0]/25 text-[10px] font-mono font-bold">
               +18.4% Projected Match
             </span>
           </div>
@@ -197,8 +129,8 @@ export const TailoredDiffView: React.FC<TailoredDiffViewProps> = ({
           >
             {copied ? (
               <>
-                <Check className="h-3.5 w-3.5 text-emerald-400" />
-                <span className="text-emerald-300">Copied!</span>
+                <Check className="h-3.5 w-3.5 text-[#00F5A0]" />
+                <span className="text-[#00F5A0]">Copied!</span>
               </>
             ) : (
               <>
@@ -220,16 +152,16 @@ export const TailoredDiffView: React.FC<TailoredDiffViewProps> = ({
 
       {/* Injected Keywords High-Density Ribbon */}
       {matchedSkillsAdded.length > 0 && (
-        <div className="p-3.5 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex flex-wrap items-center gap-2">
-          <div className="flex items-center gap-1.5 text-emerald-400 text-xs font-semibold shrink-0">
+        <div className="p-3.5 bg-[#00F5A0]/10 border border-[#00F5A0]/25 rounded-xl flex flex-wrap items-center gap-2">
+          <div className="flex items-center gap-1.5 text-[#00F5A0] text-xs font-semibold shrink-0">
             <Sparkles className="h-3.5 w-3.5" />
-            <span>Integrated Missing Keywords:</span>
+            <span>Integrated Target Keywords:</span>
           </div>
           <div className="flex flex-wrap gap-1.5">
             {matchedSkillsAdded.map((skill, idx) => (
               <span 
                 key={idx} 
-                className="px-2.5 py-0.5 rounded-lg bg-emerald-500/20 text-emerald-300 font-mono text-[11px] font-bold border border-emerald-500/30"
+                className="px-2.5 py-0.5 rounded-lg bg-[#00F5A0]/20 text-[#00F5A0] font-mono text-[11px] font-bold border border-[#00F5A0]/35 shadow-[0_0_8px_rgba(0,245,160,0.15)]"
               >
                 +{skill}
               </span>
@@ -245,7 +177,7 @@ export const TailoredDiffView: React.FC<TailoredDiffViewProps> = ({
             onClick={() => setActiveTab('diff')}
             className={`pb-3 px-3 text-xs font-semibold border-b-2 transition-all flex items-center gap-2 ${
               activeTab === 'diff'
-                ? 'border-indigo-400 text-indigo-300'
+                ? 'border-[#FF5C00] text-[#FFA133]'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
             }`}
           >
@@ -257,7 +189,7 @@ export const TailoredDiffView: React.FC<TailoredDiffViewProps> = ({
             onClick={() => setActiveTab('markdown')}
             className={`pb-3 px-3 text-xs font-semibold border-b-2 transition-all flex items-center gap-2 ${
               activeTab === 'markdown'
-                ? 'border-indigo-400 text-indigo-300'
+                ? 'border-[#FF5C00] text-[#FFA133]'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
             }`}
           >
@@ -266,8 +198,8 @@ export const TailoredDiffView: React.FC<TailoredDiffViewProps> = ({
           </button>
         </div>
 
-        <span className="text-[10px] text-slate-500 font-mono hidden sm:inline">
-          LLM Temperature: 0.2 (Deterministic)
+        <span className="text-[10px] text-slate-400 font-mono hidden sm:inline">
+          Deterministic Engine: Zero Hallucinations
         </span>
       </div>
 
@@ -275,12 +207,12 @@ export const TailoredDiffView: React.FC<TailoredDiffViewProps> = ({
       {activeTab === 'diff' && (
         <div className="space-y-4">
           {beforeAfterDiff.map((diff, idx) => (
-            <div key={idx} className="bg-obsidian-950 border border-white/[0.08] rounded-xl overflow-hidden shadow-sm">
+            <div key={idx} className="bg-[#05070B] border border-white/[0.08] rounded-xl overflow-hidden shadow-sm">
               
               {/* Section Header */}
-              <div className="bg-obsidian-850 px-4 py-2 border-b border-white/[0.06] flex items-center justify-between text-xs">
-                <span className="font-semibold text-slate-200">{diff.section || 'Professional Experience'}</span>
-                <span className="text-[10px] font-mono text-indigo-400 uppercase font-bold tracking-wider">
+              <div className="bg-[#0F1623] px-4 py-2 border-b border-white/[0.06] flex items-center justify-between text-xs">
+                <span className="font-semibold text-slate-200 font-display">{diff.section || 'Professional Experience'}</span>
+                <span className="text-[10px] font-mono text-[#FFA133] uppercase font-bold tracking-wider">
                   Transformation #{idx + 1}
                 </span>
               </div>
@@ -291,25 +223,25 @@ export const TailoredDiffView: React.FC<TailoredDiffViewProps> = ({
                 {/* Original Bullet */}
                 <div className="md:pr-4 space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 font-mono">
                       Original Submitted Phrasing
                     </span>
-                    <span className="text-[10px] font-mono text-rose-400">Prior</span>
+                    <span className="text-[10px] font-mono text-[#FF2E63]">Prior</span>
                   </div>
-                  <div className="p-3.5 rounded-xl bg-obsidian-900 border border-white/[0.06] text-xs text-slate-400 font-mono leading-relaxed">
+                  <div className="p-3.5 rounded-xl bg-[#0B1019] border border-white/[0.06] text-xs text-slate-400 font-mono leading-relaxed">
                     {diff.originalText}
                   </div>
                 </div>
 
-                {/* Optimized Bullet with soft green highlight */}
+                {/* Optimized Bullet with soft emerald highlight */}
                 <div className="md:pl-4 space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#00F5A0] font-mono">
                       AI Optimized Rephrasing
                     </span>
-                    <span className="text-[10px] font-mono text-emerald-400 font-bold">Optimized</span>
+                    <span className="text-[10px] font-mono text-[#00F5A0] font-bold">Optimized</span>
                   </div>
-                  <div className="p-3.5 rounded-xl bg-emerald-500/10 text-emerald-200 border border-emerald-500/20 text-xs font-mono leading-relaxed">
+                  <div className="p-3.5 rounded-xl bg-[#00F5A0]/10 text-[#00F5A0] border border-[#00F5A0]/25 text-xs font-mono leading-relaxed shadow-[0_0_12px_rgba(0,245,160,0.1)]">
                     {diff.tailoredText}
                   </div>
                 </div>
@@ -317,8 +249,8 @@ export const TailoredDiffView: React.FC<TailoredDiffViewProps> = ({
               </div>
 
               {/* Rationale Bar */}
-              <div className="bg-obsidian-850/60 px-4 py-2.5 border-t border-white/[0.06] text-[11px] text-slate-300 flex items-center gap-2">
-                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+              <div className="bg-[#0F1623]/60 px-4 py-2.5 border-t border-white/[0.06] text-[11px] text-slate-300 flex items-center gap-2">
+                <CheckCircle2 className="h-3.5 w-3.5 text-[#00F5A0] shrink-0" />
                 <span><strong className="text-white">Optimization Rationale:</strong> {diff.explanation}</span>
               </div>
 
@@ -329,14 +261,14 @@ export const TailoredDiffView: React.FC<TailoredDiffViewProps> = ({
 
       {/* Tab 2: Full Document View */}
       {activeTab === 'markdown' && (
-        <div className="bg-obsidian-950 p-6 rounded-xl border border-white/[0.08] font-mono text-xs leading-relaxed whitespace-pre-wrap text-slate-300 max-h-96 overflow-y-auto">
+        <div className="bg-[#05070B] p-6 rounded-xl border border-white/[0.08] font-mono text-xs leading-relaxed whitespace-pre-wrap text-slate-300 max-h-96 overflow-y-auto">
           {displayText}
         </div>
       )}
 
       {/* Factual Integrity Guarantee Footer */}
       <div className="flex items-center gap-2.5 text-xs text-slate-400 pt-2 border-t border-white/[0.06]">
-        <ShieldCheck className="h-4 w-4 text-indigo-400 shrink-0" />
+        <ShieldCheck className="h-4 w-4 text-[#FF5C00] shrink-0" />
         <span>
           <strong>Factual Integrity Guarantee:</strong> Revisions are strictly derived from your experience context. No artificial job titles, companies, or dates are hallucinated.
         </span>

@@ -250,15 +250,15 @@ export const RecruiterDashboard: React.FC = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8 relative z-10">
         
         {/* Top Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-obsidian-900 border border-white/[0.08] p-6 rounded-2xl shadow-card-lift">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-[#0B1019]/85 border border-white/[0.09] p-6 rounded-2xl shadow-[0_16px_40px_rgba(0,0,0,0.7)] backdrop-blur-xl">
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-400">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#00C9FF]">
               Recruiter Talent Evaluation Command
             </span>
             <h1 className="font-display text-2xl font-bold text-white mt-1 tracking-tight">
               Candidate Pipeline & Explainable Ranking Grid
             </h1>
-            <p className="text-xs text-slate-400 mt-1 max-w-2xl">
+            <p className="text-xs text-slate-400 mt-1 max-w-2xl font-sans">
               Deterministic ranking of applicant pool weighted by lexical keyword coverage and semantic similarity. Audit every recommendation with explainable score breakdowns.
             </p>
           </div>
@@ -278,8 +278,8 @@ export const RecruiterDashboard: React.FC = () => {
           {/* Sidebar: Requisitions */}
           <div className="lg:col-span-1 space-y-3">
             <div className="flex items-center justify-between px-1">
-              <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-                <Briefcase className="h-3.5 w-3.5 text-indigo-400" />
+              <h3 className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                <Briefcase className="h-3.5 w-3.5 text-[#00C9FF]" />
                 Active Requisitions ({jobs.length})
               </h3>
             </div>
@@ -291,13 +291,13 @@ export const RecruiterDashboard: React.FC = () => {
                   onClick={() => setSelectedJobId(j.id)}
                   className={`w-full text-left p-3.5 rounded-xl border transition-all flex flex-col justify-between ${
                     selectedJobId === j.id
-                      ? 'bg-indigo-500/15 border-indigo-500/50 shadow-glow-indigo text-white'
-                      : 'bg-obsidian-900 border-white/[0.06] text-slate-300 hover:bg-obsidian-850 hover:border-white/[0.12]'
+                      ? 'bg-[#00C9FF]/15 border-[#00C9FF]/50 shadow-[0_0_15px_rgba(0,201,255,0.25)] text-white'
+                      : 'bg-[#0B1019] border-white/[0.06] text-slate-300 hover:bg-[#0F1623] hover:border-white/[0.12]'
                   }`}
                 >
                   <div className="flex items-center justify-between w-full mb-1">
-                    <span className="font-bold text-xs truncate max-w-[170px]">{j.title}</span>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-obsidian-950 text-indigo-300 border border-white/[0.08]">
+                    <span className="font-bold text-xs truncate max-w-[170px] font-display">{j.title}</span>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#05070B] text-[#00C9FF] border border-white/[0.08]">
                       {j.candidateCount ?? 0}
                     </span>
                   </div>
@@ -314,7 +314,7 @@ export const RecruiterDashboard: React.FC = () => {
           <div className="lg:col-span-3 space-y-4">
             
             {/* Filter & Controls Bar */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-obsidian-900 border border-white/[0.08] p-4 rounded-xl shadow-sm">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#0B1019]/85 border border-white/[0.09] p-4 rounded-xl shadow-sm backdrop-blur-xl">
               
               {/* Search Box */}
               <div className="relative w-full sm:w-72">
@@ -324,20 +324,20 @@ export const RecruiterDashboard: React.FC = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search candidate name or skill..."
-                  className="w-full bg-obsidian-950 border border-white/[0.12] rounded-lg pl-9 pr-3 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                  className="w-full bg-[#05070B] border border-white/[0.12] rounded-lg pl-9 pr-3 py-1.5 text-xs text-white focus:outline-none focus:border-[#00C9FF] transition-colors font-sans"
                 />
               </div>
 
               {/* Status Filter Pills & Sort Toggle */}
               <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
-                <div className="flex items-center gap-1 bg-obsidian-950 p-1 rounded-lg border border-white/[0.06]">
+                <div className="flex items-center gap-1 bg-[#05070B] p-1 rounded-lg border border-white/[0.06]">
                   {(['all', 'shortlisted', 'pending', 'rejected'] as const).map((filterKey) => (
                     <button
                       key={filterKey}
                       onClick={() => setStatusFilter(filterKey)}
                       className={`px-2.5 py-1 rounded-md text-[11px] font-semibold capitalize transition-all ${
                         statusFilter === filterKey
-                          ? 'bg-indigo-600 text-white shadow-sm'
+                          ? 'bg-[#FF5C00] text-white shadow-sm'
                           : 'text-slate-400 hover:text-white'
                       }`}
                     >
@@ -437,9 +437,9 @@ export const RecruiterDashboard: React.FC = () => {
                         {/* Feedback Status */}
                         <td className="py-4 px-4 text-center">
                           <span className={`px-2.5 py-1 rounded-full text-[11px] font-semibold capitalize border inline-flex items-center gap-1 ${
-                            cand.feedbackStatus === 'shortlisted' ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30' :
-                            (cand.feedbackStatus === 'rejected' ? 'bg-rose-500/10 text-rose-300 border-rose-500/30' :
-                            (cand.feedbackStatus === 'feedback_sent' ? 'bg-indigo-500/10 text-indigo-300 border-indigo-500/30' : 'bg-obsidian-950 text-slate-400 border-white/[0.08]'))
+                            cand.feedbackStatus === 'shortlisted' ? 'bg-[#00F5A0]/10 text-[#00F5A0] border-[#00F5A0]/30' :
+                            (cand.feedbackStatus === 'rejected' ? 'bg-[#FF2E63]/10 text-[#FF2E63] border-[#FF2E63]/30' :
+                            (cand.feedbackStatus === 'feedback_sent' ? 'bg-[#00C9FF]/10 text-[#00C9FF] border-[#00C9FF]/30' : 'bg-[#05070B] text-slate-400 border-white/[0.08]'))
                           }`}>
                             {cand.feedbackStatus || 'Pending'}
                           </span>
@@ -452,7 +452,7 @@ export const RecruiterDashboard: React.FC = () => {
                               onClick={() => setActiveExplainMatch(cand)}
                               className="px-3 py-1.5 btn-secondary-obsidian text-slate-200 hover:text-white font-medium rounded-lg text-xs flex items-center gap-1.5 transition-all"
                             >
-                              <Eye className="h-3.5 w-3.5 text-indigo-400" />
+                              <Eye className="h-3.5 w-3.5 text-[#00C9FF]" />
                               <span>Analyze</span>
                             </button>
 
@@ -509,8 +509,8 @@ export const RecruiterDashboard: React.FC = () => {
 
         {/* Post Job Modal */}
         {showPostModal && (
-          <div className="fixed inset-0 z-50 bg-obsidian-950/80 backdrop-blur-md flex items-center justify-center p-4">
-            <div className="w-full max-w-xl bg-obsidian-900 border border-white/[0.12] rounded-2xl p-6 shadow-2xl space-y-6">
+          <div className="fixed inset-0 z-50 bg-[#05070B]/80 backdrop-blur-xl flex items-center justify-center p-4 animate-fade-in-up">
+            <div className="w-full max-w-xl bg-[#0B1019] border border-white/[0.12] rounded-2xl p-6 shadow-[0_24px_60px_rgba(0,0,0,0.9)] space-y-6">
               
               <div className="flex items-center justify-between border-b border-white/[0.08] pb-4">
                 <h3 className="font-display text-lg font-bold text-white">Create New Job Posting</h3>
@@ -526,7 +526,7 @@ export const RecruiterDashboard: React.FC = () => {
                     onChange={(e) => setNewTitle(e.target.value)}
                     required
                     placeholder="e.g. Senior Distributed Systems Engineer"
-                    className="w-full bg-obsidian-950 border border-white/[0.12] rounded-xl p-2.5 text-white focus:outline-none focus:border-indigo-500"
+                    className="w-full bg-[#05070B] border border-white/[0.12] rounded-xl p-2.5 text-white focus:outline-none focus:border-[#FF5C00] font-sans"
                   />
                 </div>
 
@@ -538,7 +538,7 @@ export const RecruiterDashboard: React.FC = () => {
                     rows={4}
                     required
                     placeholder="Paste responsibilities & required technical stack..."
-                    className="w-full bg-obsidian-950 border border-white/[0.12] rounded-xl p-3 text-slate-200 focus:outline-none focus:border-indigo-500 font-sans"
+                    className="w-full bg-[#05070B] border border-white/[0.12] rounded-xl p-3 text-slate-200 focus:outline-none focus:border-[#FF5C00] font-sans"
                   />
                 </div>
 
@@ -547,21 +547,21 @@ export const RecruiterDashboard: React.FC = () => {
                     type="button"
                     onClick={handleExtractRequirements}
                     disabled={!newDesc || extractingReqs}
-                    className="px-3.5 py-1.5 btn-secondary-obsidian text-indigo-300 font-semibold rounded-xl flex items-center gap-1.5 transition-all"
+                    className="px-3.5 py-2 btn-secondary-obsidian text-[#FFA133] font-semibold rounded-xl flex items-center gap-1.5 transition-all"
                   >
-                    <Sparkles className="h-3.5 w-3.5 text-indigo-400" />
+                    <Sparkles className="h-3.5 w-3.5 text-[#FF5C00]" />
                     <span>{extractingReqs ? 'Extracting Skills...' : 'Auto-Extract Requirements (NER)'}</span>
                   </button>
                 </div>
 
                 {extractedReqs.length > 0 && (
-                  <div className="p-3 bg-obsidian-950 border border-white/[0.08] rounded-xl space-y-2">
-                    <span className="text-slate-400 font-bold uppercase tracking-wider text-[10px] block">
+                  <div className="p-3 bg-[#05070B] border border-white/[0.08] rounded-xl space-y-2">
+                    <span className="text-slate-400 font-bold uppercase tracking-wider text-[10px] block font-mono">
                       Auto-Tagged Requisition Requirements ({extractedReqs.length})
                     </span>
                     <div className="flex flex-wrap gap-1.5">
                       {extractedReqs.map((req, i) => (
-                        <span key={i} className="px-2 py-0.5 rounded-lg bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 text-[11px] font-medium">
+                        <span key={i} className="px-2 py-0.5 rounded-lg bg-[#FFA133]/10 text-[#FFA133] border border-[#FFA133]/25 text-[11px] font-mono font-medium">
                           {req.skill} ({req.importance === 'must_have' ? 'Required' : 'Nice to have'})
                         </span>
                       ))}
